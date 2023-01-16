@@ -41,7 +41,7 @@ class GameFragment : Fragment() {
 
         useSelected = viewModel.getUseSelected()
         Log.i(TAG, "Verwendungszweck: $useSelected")
-        
+
     }
 
     override fun onDestroyView() {

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "595406458497",
+    "project_id": "cubegameapp",
+    "storage_bucket": "cubegameapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595406458497:android:caf7205c68cf57ec338780",
+        "android_client_info": {
+          "package_name": "com.example.cubegameapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "595406458497-p222nl0tfs0isrs5p0nebbjtbq2ed5nd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7TJPVpDinhssj-Mms3ZQu5XJ8FqiOZRI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "595406458497-p222nl0tfs0isrs5p0nebbjtbq2ed5nd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

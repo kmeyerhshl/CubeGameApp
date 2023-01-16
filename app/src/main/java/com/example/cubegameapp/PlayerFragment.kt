@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.cubegameapp.databinding.FragmentPlayerBinding
 import com.example.cubegameapp.model.MainViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -21,8 +22,11 @@ class PlayerFragment : Fragment() {
     private var _binding: FragmentPlayerBinding? = null
 
     private val viewModel: MainViewModel by activityViewModels()
+    private val mFirebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+
 
     private var useSelected: String = ""
+
 
 
     // This property is only valid between onCreateView and

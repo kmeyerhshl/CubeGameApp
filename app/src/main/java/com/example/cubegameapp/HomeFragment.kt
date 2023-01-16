@@ -82,7 +82,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
 
-        binding.btnAnleitung.setOnClickListener {
+        binding.fabAnleitung.setOnClickListener {
             showDialog()
         }
 
