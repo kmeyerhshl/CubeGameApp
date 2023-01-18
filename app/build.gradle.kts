@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 plugins {
     id("com.android.application") // or id("com.android.library")
     kotlin("multiplatform")
-    id("com.google.gms.google-services")
 }
 
 kotlin {
@@ -69,6 +68,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     implementation ("com.google.firebase:firebase-auth-ktx:21.1.0")
+    implementation("com.louiscad.splitties:splitties-alertdialog:3.0.0")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
 }

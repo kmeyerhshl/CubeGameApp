@@ -29,4 +29,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
+    //Player Fragment
+    <string name="dialogAdd">Spieler hinzufügen</string>
+    <string name="dialog_cancel2">Abbruch</string>
+    <string name="dialog_ok">Ok</string>
+    <string name="dialogDelete">Spieler löschen?</string>
+    <string name="btnMix">Teams??</string>
+
 </resources>

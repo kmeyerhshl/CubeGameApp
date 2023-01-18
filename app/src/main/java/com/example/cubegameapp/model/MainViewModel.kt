@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
-import java.util.*
 import java.util.concurrent.CancellationException
 import java.util.concurrent.TimeUnit
 
@@ -81,13 +80,36 @@ class MainViewModel : ViewModel() {
         Log.i(TAG,_selectedUse.value.toString())
     }
 
+    //---Liste Spieler---
+    private val _playerList = MutableLiveData<MutableList<String>>()
+    val playerList: LiveData<MutableList<String>>
+        get() = _playerList
+
+    fun getPlayerList(): List<String>? {
+        return _playerList.value
+    }
+
+
 
     init {
         _deviceList.value = mutableListOf()
         _selectedUse.value = ""
+        _playerList.value = mutableListOf("Testtermin 1", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2")
     }
 
+    fun addPlayer(player: String) {
+        if (!(_playerList.value?.contains(player) ?: true)) {
+            _playerList.value?.add(player)
+            _playerList.notifyObserver()
+            Log.i(TAG, _playerList.value.toString())
+        }
+    }
 
+    fun deletePlayer(player: String) {
+        _playerList.value?.removeAll() {it.equals(player)}
+        _playerList.notifyObserver()
+        Log.i(TAG, _playerList.value.toString())
+    }
 
 
     // Scanning
