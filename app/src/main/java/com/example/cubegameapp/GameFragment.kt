@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.cubegameapp.databinding.FragmentGameBinding
 import com.example.cubegameapp.model.MainViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class GameFragment : Fragment() {
@@ -21,6 +22,9 @@ class GameFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
 
     private var useSelected: String = ""
+
+    val singleItems = arrayOf("3 Runden", "5 Runden", "10 Runden")
+    var checkedItem = 1
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -39,8 +43,27 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //---Verwendungszweck empfangen---
         useSelected = viewModel.getUseSelected()
         Log.i(TAG, "Verwendungszweck: $useSelected")
+
+
+        //---Rundenanzahl wählen---
+        var selectedItem = singleItems[checkedItem]
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.dialogTitle))
+            .setPositiveButton(resources.getString(R.string.dialogEnter)) { dialog, which ->
+                binding.tvRunden.text = selectedItem
+            }
+            // Single-choice items (initialized with checked item)
+            .setSingleChoiceItems(singleItems, checkedItem) { dialog, which ->
+                checkedItem = which
+                selectedItem = singleItems[which]
+            }
+            .show()
+
+
 
     }
 

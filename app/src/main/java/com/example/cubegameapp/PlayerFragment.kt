@@ -70,43 +70,6 @@ class PlayerFragment : Fragment() {
         binding.lvPlayer.adapter = adapter
 
 
-        //Spieler löschen
-        binding.fabDelete.setOnClickListener {
-            val position: SparseBooleanArray = binding.lvPlayer.checkedItemPositions
-            val count = binding.lvPlayer.count
-            var item = count - 1
-            while (item>=0) {
-                if (position.get(item)) {
-                    adapter.remove(playerList.get(item))
-                }
-                item--
-            }
-            position.clear()
-            adapter.notifyDataSetChanged()
-
-            /*val position: SparseBooleanArray = binding.lvPlayer.checkedItemPositions
-            val count = binding.lvPlayer.count
-            var item = count - 1
-            for (i in 0 until count) {
-                viewModel.deletePlayer(binding.lvPlayer.getItemAtPosition(i).toString())
-            }
-            while (item >= 0) {
-                if (position.get(item)) {
-                    //adapter.remove(itemlist.get(item))
-                    viewModel.deletePlayer()
-                    //adapter.remove(binding.lvPlayer.get(item).toString())
-                }
-                item--
-            }
-            position.clear()
-            adapter.notifyDataSetChanged()*/
-        }
-
-
-        /*binding.lvPlayer.setOnItemClickListener { adapterView, view, i, l ->
-            showDialogDelete(binding.lvPlayer.getItemAtPosition(i).toString())
-        }*/
-
 
         //Spieler hinzufügen
         binding.fabAdd.setOnClickListener {
@@ -128,8 +91,31 @@ class PlayerFragment : Fragment() {
             }
         }
 
-        binding.btnTeams.setOnClickListener {
+        //Spieler löschen - kopiert
+        binding.fabDelete.setOnClickListener {
+            val position: SparseBooleanArray = binding.lvPlayer.checkedItemPositions
+            val count = binding.lvPlayer.count
+            var item = count - 1
+            while (item>=0) {
+                if (position.get(item)) {
+                    adapter.remove(playerList.get(item))
+                }
+                item--
+            }
+            position.clear()
+            adapter.notifyDataSetChanged()
+        }
 
+        binding.btnTeams.setOnClickListener {
+            /*val position: SparseBooleanArray = binding.lvPlayer.checkedItemPositions
+            val count = binding.lvPlayer.count
+            var item = count - 1
+            while (item>=0) {
+                if (position.get(item)) {
+
+                }
+            }*/
+            findNavController().navigate(R.id.action_SecondFragment_to_gameFragment)
         }
 
         //Button zurück

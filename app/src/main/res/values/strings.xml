@@ -36,4 +36,9 @@
     <string name="dialogDelete">Spieler löschen?</string>
     <string name="btnMix">Teams??</string>
 
+
+    //Game Fragment
+    <string name="dialogTitle">Wie viele Runden wollen Sie spielen?</string>
+    <string name="dialogEnter">Bestätigen</string>
+
 </resources>
