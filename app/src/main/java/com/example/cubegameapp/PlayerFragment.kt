@@ -1,6 +1,8 @@
 package com.example.cubegameapp
 
+import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.util.SparseBooleanArray
 import androidx.fragment.app.Fragment
@@ -9,12 +11,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ListView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.cubegameapp.databinding.FragmentPlayerBinding
 import com.example.cubegameapp.model.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
+import splitties.toast.toast
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -59,15 +64,15 @@ class PlayerFragment : Fragment() {
         Log.i(TAG, "Verwendungszweck: $useSelected")
 
         //ListView ViewModel
-        //val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_multiple_choice,viewModel.getPlayerList()!!)
-        //binding.lvPlayer.adapter = adapter
-        //viewModel.playerList.observe(viewLifecycleOwner) { adapter.notifyDataSetChanged() }
+        val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_multiple_choice,viewModel.getPlayerList()!!)
+        binding.lvPlayer.adapter = adapter
+        viewModel.playerList.observe(viewLifecycleOwner) { adapter.notifyDataSetChanged() }
 
 
         //ListView ohne ViewModel
-        playerList = ArrayList()
-        adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_multiple_choice, playerList)
-        binding.lvPlayer.adapter = adapter
+        //playerList = ArrayList()
+        //adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_multiple_choice, playerList)
+        //binding.lvPlayer.adapter = adapter
 
 
 
@@ -82,10 +87,14 @@ class PlayerFragment : Fragment() {
                     }
                     .setPositiveButton(R.string.dialog_ok) { dialog, which ->
                         val playerName = editTextView.text.toString()
-                        playerList.add(playerName)
-                        adapter.notifyDataSetChanged()
-                        //viewModel.addPlayer(playerName)
-                        Log.i(TAG,"neuer Spieler: $playerName")
+                        if (playerName.isEmpty()) {
+                            toast(getString(R.string.fill_out))
+                        } else {
+                            viewModel.addPlayer(playerName)
+                            adapter.notifyDataSetChanged()
+                            Log.i(TAG,"neuer Spieler: $playerName")
+                        }
+                        //playerList.add(playerName)
                     }
                     .show()
             }
@@ -93,7 +102,14 @@ class PlayerFragment : Fragment() {
 
         //Spieler löschen - kopiert
         binding.fabDelete.setOnClickListener {
-            val position: SparseBooleanArray = binding.lvPlayer.checkedItemPositions
+            for (i in 0 until binding.lvPlayer.count) {
+                if (binding.lvPlayer.isItemChecked(i)) {
+                    val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
+                    viewModel.deletePlayer(playerName)
+                }
+            }
+            adapter.notifyDataSetChanged()
+            /*val position: SparseBooleanArray = binding.lvPlayer.checkedItemPositions
             val count = binding.lvPlayer.count
             var item = count - 1
             while (item>=0) {
@@ -103,10 +119,26 @@ class PlayerFragment : Fragment() {
                 item--
             }
             position.clear()
-            adapter.notifyDataSetChanged()
+            adapter.notifyDataSetChanged()*/
         }
 
         binding.btnTeams.setOnClickListener {
+            for (i in 0 until binding.lvPlayer.count) {
+                if (binding.lvPlayer.isItemChecked(i)) {
+                    val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
+                    viewModel.selectPlayer(playerName)
+                }
+            }
+            showDialogTeams()
+            /*var itemSelected = "Selected items: \n"
+            for (i in 0 until binding.lvPlayer.count) {
+                if (binding.lvPlayer.isItemChecked(i)) {
+                    itemSelected += binding.lvPlayer.getItemAtPosition(i)
+                    val playerName = binding.lvPlayer.getItemAtPosition(i)
+                    viewModel.addPlayer(playerName as String)
+                }
+            }
+            toast(itemSelected)*/
             /*val position: SparseBooleanArray = binding.lvPlayer.checkedItemPositions
             val count = binding.lvPlayer.count
             var item = count - 1
@@ -115,13 +147,37 @@ class PlayerFragment : Fragment() {
 
                 }
             }*/
-            findNavController().navigate(R.id.action_SecondFragment_to_gameFragment)
+            //findNavController().navigate(R.id.action_SecondFragment_to_gameFragment)
         }
+
 
         //Button zurück
         binding.buttonSecond.setOnClickListener {
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
+    }
+
+    private fun showDialogTeams() {
+        //Alert Dialog
+        val mAlertDialogBuilder = AlertDialog.Builder(requireContext())
+        // Row layout is inflated and added to ListView
+        val mRowList = layoutInflater.inflate(R.layout.listview, null)
+        val mListView = mRowList.findViewById<ListView>(R.id.list_view_1)
+
+        // Adapter is created and applied to ListView
+        val mAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, viewModel.getSelectedPlayerList()!!)
+        mListView.adapter = mAdapter
+        mAdapter.notifyDataSetChanged()
+
+        // Row item is set as view in the Builder and the
+        // ListView is displayed in the Alert Dialog
+        mAlertDialogBuilder.setTitle(getString(R.string.adTitle))
+        mAlertDialogBuilder.setView(mRowList)
+        mAlertDialogBuilder.setPositiveButton(getString(R.string.posButton)) { dialog, which ->
+
+        }
+        val dialog = mAlertDialogBuilder.create()
+        dialog.show()
     }
 
     private fun showDialogAdd() {

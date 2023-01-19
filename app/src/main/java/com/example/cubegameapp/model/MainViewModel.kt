@@ -90,25 +90,42 @@ class MainViewModel : ViewModel() {
     }
 
 
+    //---Liste ausgewählte Spieler---
+    private val _selectedPlayerList = MutableLiveData<MutableList<String>>()
+    val selectedPlayerList: LiveData<MutableList<String>>
+        get() = _selectedPlayerList
+
+    fun getSelectedPlayerList(): List<String>? {
+        return _selectedPlayerList.value
+    }
+
 
     init {
         _deviceList.value = mutableListOf()
         _selectedUse.value = ""
-        _playerList.value = mutableListOf("Testtermin 1", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2")
+        _playerList.value = mutableListOf()
+        _selectedPlayerList.value= mutableListOf()
+        //_playerList.value = mutableListOf("Testtermin 1", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2")
     }
 
     fun addPlayer(player: String) {
         if (!(_playerList.value?.contains(player) ?: true)) {
             _playerList.value?.add(player)
             _playerList.notifyObserver()
-            Log.i(TAG, _playerList.value.toString())
+            Log.i("MVM Add:", _playerList.value.toString())
         }
     }
 
     fun deletePlayer(player: String) {
         _playerList.value?.removeAll() {it.equals(player)}
         _playerList.notifyObserver()
-        Log.i(TAG, _playerList.value.toString())
+        Log.i("MVM Delete:", _playerList.value.toString())
+    }
+
+    fun selectPlayer(player: String) {
+        _selectedPlayerList.value?.add(player)
+        _selectedPlayerList.notifyObserver()
+        Log.i("MVM Select:", _selectedPlayerList.value.toString())
     }
 
 

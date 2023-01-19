@@ -35,6 +35,9 @@
     <string name="dialog_ok">Ok</string>
     <string name="dialogDelete">Spieler löschen?</string>
     <string name="btnMix">Teams??</string>
+    <string name="adTitle">Teams</string>
+    <string name="posButton">Spiel starten</string>
+    <string name="fill_out">Bitte ausfüllen</string>
 
 
     //Game Fragment

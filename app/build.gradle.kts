@@ -69,6 +69,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     implementation ("com.google.firebase:firebase-auth-ktx:21.1.0")
     implementation("com.louiscad.splitties:splitties-alertdialog:3.0.0")
+    implementation("com.louiscad.splitties:splitties-toast:3.0.0")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
 }
