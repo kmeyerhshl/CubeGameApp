@@ -123,10 +123,16 @@ class PlayerFragment : Fragment() {
         }
 
         binding.btnTeams.setOnClickListener {
-            for (i in 0 until binding.lvPlayer.count) {
+            for (i in 0 until binding.lvPlayer.count/2) {
                 if (binding.lvPlayer.isItemChecked(i)) {
                     val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
-                    viewModel.selectPlayer(playerName)
+                    viewModel.selectPlayerA(playerName)
+                }
+            }
+            for (i in binding.lvPlayer.count/2 until binding.lvPlayer.count) {
+                if (binding.lvPlayer.isItemChecked(i)) {
+                    val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
+                    viewModel.selectPlayerB(playerName)
                 }
             }
             showDialogTeams()
@@ -163,15 +169,19 @@ class PlayerFragment : Fragment() {
         // Row layout is inflated and added to ListView
         val mRowList = layoutInflater.inflate(R.layout.listview, null)
         val mListView = mRowList.findViewById<ListView>(R.id.list_view_1)
+        val mListView2 = mRowList.findViewById<ListView>(R.id.list_view_2)
 
         // Adapter is created and applied to ListView
-        val mAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, viewModel.getSelectedPlayerList()!!)
-        mListView.adapter = mAdapter
-        mAdapter.notifyDataSetChanged()
+        val mAdapterA = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, viewModel.getSelectedPlayerListA()!!)
+        val mAdapterB = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, viewModel.getSelectedPlayerListB()!!)
+        mListView.adapter = mAdapterA
+        mListView2.adapter = mAdapterB
+        mAdapterA.notifyDataSetChanged()
+        mAdapterB.notifyDataSetChanged()
 
         // Row item is set as view in the Builder and the
         // ListView is displayed in the Alert Dialog
-        mAlertDialogBuilder.setTitle(getString(R.string.adTitle))
+        //mAlertDialogBuilder.setTitle(getString(R.string.adTitle))
         mAlertDialogBuilder.setView(mRowList)
         mAlertDialogBuilder.setPositiveButton(getString(R.string.posButton)) { dialog, which ->
 

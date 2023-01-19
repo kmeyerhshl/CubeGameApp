@@ -91,12 +91,20 @@ class MainViewModel : ViewModel() {
 
 
     //---Liste ausgewählte Spieler---
-    private val _selectedPlayerList = MutableLiveData<MutableList<String>>()
-    val selectedPlayerList: LiveData<MutableList<String>>
-        get() = _selectedPlayerList
+    private val _selectedPlayerListA = MutableLiveData<MutableList<String>>()
+    val selectedPlayerListA: LiveData<MutableList<String>>
+        get() = _selectedPlayerListA
 
-    fun getSelectedPlayerList(): List<String>? {
-        return _selectedPlayerList.value
+    fun getSelectedPlayerListA(): List<String>? {
+        return _selectedPlayerListA.value
+    }
+
+    private val _selectedPlayerListB = MutableLiveData<MutableList<String>>()
+    val selectedPlayerListB: LiveData<MutableList<String>>
+        get() = _selectedPlayerListB
+
+    fun getSelectedPlayerListB(): List<String>? {
+        return _selectedPlayerListB.value
     }
 
 
@@ -104,7 +112,8 @@ class MainViewModel : ViewModel() {
         _deviceList.value = mutableListOf()
         _selectedUse.value = ""
         _playerList.value = mutableListOf()
-        _selectedPlayerList.value= mutableListOf()
+        _selectedPlayerListA.value = mutableListOf()
+        _selectedPlayerListB.value = mutableListOf()
         //_playerList.value = mutableListOf("Testtermin 1", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2")
     }
 
@@ -122,10 +131,16 @@ class MainViewModel : ViewModel() {
         Log.i("MVM Delete:", _playerList.value.toString())
     }
 
-    fun selectPlayer(player: String) {
-        _selectedPlayerList.value?.add(player)
-        _selectedPlayerList.notifyObserver()
-        Log.i("MVM Select:", _selectedPlayerList.value.toString())
+    fun selectPlayerA(player: String) {
+        _selectedPlayerListA.value?.add(player)
+        _selectedPlayerListA.notifyObserver()
+        Log.i("MVM Select A:", _selectedPlayerListA.value.toString())
+    }
+
+    fun selectPlayerB(player: String) {
+        _selectedPlayerListB.value?.add(player)
+        _selectedPlayerListB.notifyObserver()
+        Log.i("MVM Select B:", _selectedPlayerListB.value.toString())
     }
 
 
