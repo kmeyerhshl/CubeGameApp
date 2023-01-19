@@ -6,8 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.benasher44.uuid.uuidFrom
-import com.example.cubegameapp.esp32ble.CUSTOM_SERVICE_UUID
-import com.example.cubegameapp.esp32ble.Esp32Ble
+import com.example.cubegameapp.esp32ble.*
 import com.juul.kable.Filter
 import com.juul.kable.Peripheral
 import com.juul.kable.Scanner
@@ -17,6 +16,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
+import org.json.JSONObject
 import java.util.concurrent.CancellationException
 import java.util.concurrent.TimeUnit
 
@@ -225,8 +225,10 @@ class MainViewModel : ViewModel() {
     // Communication
     // ____________________________________________________________________
 
-/*
-    var ledData = LedData()
+
+    //var ledData = LedData()
+    var pData = Data()
+    var repeatData = Repeat()
 
     private lateinit var dataLoadJob: Job
 
@@ -248,7 +250,29 @@ class MainViewModel : ViewModel() {
         dataLoadJob.cancel()
     }
 
-    fun sendLedData() {
+    //Daten Spielen
+    fun sendData() {
+        viewModelScope.launch {
+            try {
+                esp32.sendMessage(jsonEncodePlayData(pData))
+            } catch (e:Exception) {
+                Log.i(">>>>>", "Error sending pData ${e.message}" + e.toString())
+            }
+        }
+    }
+
+    //Daten wiederholen
+    fun sendDataRepeat() {
+        viewModelScope.launch {
+            try {
+                esp32.sendMessage(jsonEncodeRepeat(repeatData))
+            } catch (e:Exception) {
+                Log.i(">>>>>", "Error sending pData ${e.message}" + e.toString())
+            }
+        }
+    }
+
+    /*fun sendLedData() {
         viewModelScope.launch {
             try {
                 esp32.sendMessage(jsonEncodeLedData(ledData))
@@ -256,25 +280,39 @@ class MainViewModel : ViewModel() {
                 Log.i(">>>>>", "Error sending ledData ${e.message}" + e.toString())
             }
         }
+    }*/
+
+    private fun jsonEncodeRepeat(repeat: Repeat): String {
+        val obj = JSONObject()
+        obj.put("REPEAT", repeat.repeat)
+        return obj.toString()
     }
 
-    private fun jsonEncodeLedData(ledData: LedData): String {
+    private fun jsonEncodePlayData(pData: Data): String {
+        val obj = JSONObject()
+        obj.put("PLAY", pData.play)
+        return obj.toString()
+    }
+
+    /*private fun jsonEncodeLedData(ledData: LedData): String {
         val obj = JSONObject()
         obj.put("LED", ledData.led)
         obj.put("LEDBlinken", ledData.ledBlinken)
         return obj.toString()
-    }
+    }*/
 
     fun jsonParseEsp32Data(jsonString: String): Esp32Data {
         try {
             val obj = JSONObject(jsonString)
             return Esp32Data(
-                ledstatus = obj.getString("ledstatus"),
-                potiArray = obj.getJSONArray("potiArray")
+                playStatus = obj.getString("playStatus"),
+                seite = obj.getString("seite")
+                //ledstatus = obj.getString("ledstatus"),
+                //potiArray = obj.getJSONArray("potiArray")
             )
         } catch (e: Exception) {
             Log.i(">>>>", "Error decoding JSON ${e.message}")
             return Esp32Data()
         }
-    }*/
+    }
 }

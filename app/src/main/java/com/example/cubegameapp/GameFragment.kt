@@ -11,6 +11,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.cubegameapp.databinding.FragmentGameBinding
 import com.example.cubegameapp.model.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class GameFragment : Fragment() {
@@ -63,12 +66,29 @@ class GameFragment : Fragment() {
             }
             .show()
 
+        val scope = MainScope()
+        scope.launch {
+            delay(3000)
+            Log.i(TAG, "delay")
+            viewModel.sendData()
+            viewModel.startDataLoadJob()
+        }
 
+
+        viewModel.esp32Data.observe(viewLifecycleOwner) {data ->
+            binding.tvData.text = "${data.playStatus}\n${data.seite}"
+            // process data ....
+        }
+
+        binding.btnRepeat.setOnClickListener {
+            viewModel.sendDataRepeat()
+        }
 
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        viewModel.cancelDataLoadJob()
     }
 }
