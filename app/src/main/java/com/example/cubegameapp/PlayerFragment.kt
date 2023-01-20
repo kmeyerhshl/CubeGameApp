@@ -123,6 +123,14 @@ class PlayerFragment : Fragment() {
         }
 
         binding.btnTeams.setOnClickListener {
+            for (i in 0 until binding.lvPlayer.count) {
+                if (binding.lvPlayer.isItemChecked(i)) {
+                    val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
+                    viewModel.emptySelectedPlayers(playerName)
+                }
+            }
+            adapter.notifyDataSetChanged()
+
             for (i in 0 until binding.lvPlayer.count/2) {
                 if (binding.lvPlayer.isItemChecked(i)) {
                     val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
@@ -179,12 +187,13 @@ class PlayerFragment : Fragment() {
         mAdapterA.notifyDataSetChanged()
         mAdapterB.notifyDataSetChanged()
 
+
         // Row item is set as view in the Builder and the
         // ListView is displayed in the Alert Dialog
         //mAlertDialogBuilder.setTitle(getString(R.string.adTitle))
         mAlertDialogBuilder.setView(mRowList)
         mAlertDialogBuilder.setPositiveButton(getString(R.string.posButton)) { dialog, which ->
-
+            findNavController().navigate(R.id.action_SecondFragment_to_gameFragment)
         }
         val dialog = mAlertDialogBuilder.create()
         dialog.show()

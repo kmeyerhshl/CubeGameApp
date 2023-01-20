@@ -131,6 +131,14 @@ class MainViewModel : ViewModel() {
         Log.i("MVM Delete:", _playerList.value.toString())
     }
 
+    fun emptySelectedPlayers(player: String) {
+        _selectedPlayerListA.value?.removeAll() {it.equals(player)}
+        _selectedPlayerListB.value?.removeAll() {it.equals(player)}
+        _selectedPlayerListA.notifyObserver()
+        _selectedPlayerListB.notifyObserver()
+        Log.i("MVM Empty","done")
+    }
+
     fun selectPlayerA(player: String) {
         _selectedPlayerListA.value?.add(player)
         _selectedPlayerListA.notifyObserver()
@@ -261,6 +269,7 @@ class MainViewModel : ViewModel() {
     //var ledData = LedData()
     var pData = Data()
     var repeatData = Repeat()
+    var round = Round()
 
     private lateinit var dataLoadJob: Job
 
@@ -304,6 +313,16 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    fun sendRoundData(selectedItem: String) {
+        viewModelScope.launch {
+            try {
+                esp32.sendMessage(jsonEncodeRound(round))
+            } catch (e:Exception) {
+                Log.i(">>>>>", "Error sending pData ${e.message}" + e.toString())
+            }
+        }
+    }
+
     /*fun sendLedData() {
         viewModelScope.launch {
             try {
@@ -323,6 +342,12 @@ class MainViewModel : ViewModel() {
     private fun jsonEncodePlayData(pData: Data): String {
         val obj = JSONObject()
         obj.put("PLAY", pData.play)
+        return obj.toString()
+    }
+
+    private fun jsonEncodeRound(round: Round): String {
+        val obj = JSONObject()
+        obj.put("ROUND", round.roundnr)
         return obj.toString()
     }
 

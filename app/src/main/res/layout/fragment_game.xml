@@ -34,14 +34,14 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="9dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="15dp"
         android:backgroundTint="@color/blue"
-        android:text="@string/btnTeamA"
+        android:text="@string/teamA"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnB"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRepeat" />
+        app:layout_constraintTop_toBottomOf="@+id/tvNameA" />
 
     <Button
         android:id="@+id/btnB"
@@ -50,7 +50,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/red"
-        android:text="@string/btnTeamB"
+        android:text="@string/teamB"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,5 +68,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvNameA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="61dp"
+        android:layout_marginTop="91dp"
+        android:layout_marginBottom="320dp"
+        android:hint="@string/teamA"
+        app:layout_constraintBottom_toTopOf="@+id/btnA"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvNameB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="21dp"
+        android:hint="@string/teamB"
+        app:layout_constraintStart_toEndOf="@+id/tvRunden"
+        app:layout_constraintTop_toBottomOf="@+id/tvRunden" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
