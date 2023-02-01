@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.cubegameapp.databinding.FragmentGameBinding
 import com.example.cubegameapp.model.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -26,13 +27,17 @@ class GameFragment : Fragment() {
 
     private var useSelected: String = ""
 
-    val singleItems = arrayOf("3", "5", "10")
+    val singleItems = arrayOf("3","5","10")
     var checkedItem = 1
+    var nrRounds : Int = 0
+    var rounds = 0
 
     private var scoreA: Int = 0
     private var scoreB: Int = 0
     private var newA: String = ""
     private var newB: String = ""
+    private var winner: String = ""
+    private var gameOver = false
 
 
     // This property is only valid between onCreateView and
@@ -64,6 +69,20 @@ class GameFragment : Fragment() {
             .setPositiveButton(resources.getString(R.string.dialogEnter)) { dialog, which ->
                 binding.tvRunden.text = selectedItem
                 viewModel.sendRoundData(selectedItem)
+                if (selectedItem == "3") {
+                    nrRounds = 3
+                    Log.i(TAG,"ausgewählte Rundenanzahl: $nrRounds")
+                }
+                if (selectedItem == "5") {
+                    nrRounds = 5
+                    Log.i(TAG,"ausgewählte Rundenanzahl: $nrRounds")
+                }
+                if (selectedItem == "10") {
+                    nrRounds = 10
+                    Log.i(TAG,"ausgewählte Rundenanzahl: $nrRounds")
+                }
+                nrRounds = selectedItem.toInt()
+                Log.i(TAG,"Rundennummer: $nrRounds")
             }
             // Single-choice items (initialized with checked item)
             .setSingleChoiceItems(singleItems, checkedItem) { dialog, which ->
@@ -73,6 +92,8 @@ class GameFragment : Fragment() {
             .show()
 
 
+
+        //TODO: wenn Rundenanzahl erreicht
         //---Daten senden und empfangen---
         /*val scope = MainScope()
         scope.launch {
@@ -109,7 +130,10 @@ class GameFragment : Fragment() {
         //---Gewinner wählen---
         binding.btnA.setOnClickListener {
             scoreA++
+            rounds++
+            Log.i(TAG, "Runde: $rounds")
             toast(getString(R.string.scoreA).format(scoreA))
+
             val previousA = binding.tvNameA.text
             newA = listA.value?.random().toString()
             Log.i(TAG, "Button A previous A: $previousA")
@@ -118,9 +142,10 @@ class GameFragment : Fragment() {
             newB = listB.value?.random().toString()
             Log.i(TAG, "Button A previous B: $previousB")
             Log.i(TAG, "Button A new B: $newB")
-            if (previousA == newA && previousB == newB) {
+            if (previousA == newA || previousB == newB) {
                 newA = listA.value?.random().toString()
                 binding.tvNameA.text = newA
+                binding.tvNameA.invalidate()
                 newB = listB.value?.random().toString()
                 binding.tvNameB.text = newB
             }
@@ -136,11 +161,18 @@ class GameFragment : Fragment() {
                 newB = listB.value?.random().toString()
                 binding.tvNameB.text = newB
             }*/
+            if (rounds == nrRounds) {
+                Log.i(TAG, "Status: $gameOver")
+                checkRound()
+            }
         }
 
         binding.btnB.setOnClickListener {
             scoreB++
+            rounds++
+            Log.i(TAG, "Runde: $rounds")
             toast(getString(R.string.scoreB).format(scoreB))
+
             val previousA = binding.tvNameA.text
             newA = listA.value?.random().toString()
             Log.i(TAG, "Button B previous A: $previousA")
@@ -159,7 +191,35 @@ class GameFragment : Fragment() {
                 newB = listB.value?.random().toString()
                 binding.tvNameB.text = newB
             }*/
+            if (rounds == nrRounds) {
+                Log.i(TAG, "Status: $gameOver")
+                checkRound()
+            }
         }
+
+        binding.fabBack.setOnClickListener {
+            findNavController().navigate(R.id.action_gameFragment_to_SecondFragment)
+        }
+
+
+    }
+
+
+    private fun checkRound() {
+            //gameOver = true
+            Log.i(TAG, "Spiel vorbei")
+            if(scoreA > scoreB) {
+                winner = "Team A"
+            } else {
+                winner = "Team B"
+            }
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(resources.getString(R.string.dialogEnd))
+                .setMessage(winner)
+                .setPositiveButton(resources.getString(R.string.dialogEnter)) { dialog, which ->
+                    findNavController().navigate(R.id.action_gameFragment_to_FirstFragment)
+                }
+                .show()
     }
 
     override fun onDestroyView() {
