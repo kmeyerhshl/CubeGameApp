@@ -267,7 +267,8 @@ class MainViewModel : ViewModel() {
 
 
     //var ledData = LedData()
-    var pData = Data()
+    var pData = Play()
+    var sData = Stop()
     var repeatData = Repeat()
     var round = Round()
 
@@ -292,10 +293,20 @@ class MainViewModel : ViewModel() {
     }
 
     //Daten Spielen
-    fun sendData() {
+    fun sendDataPlay() {
         viewModelScope.launch {
             try {
                 esp32.sendMessage(jsonEncodePlayData(pData))
+            } catch (e:Exception) {
+                Log.i(">>>>>", "Error sending pData ${e.message}" + e.toString())
+            }
+        }
+    }
+
+    fun sendDataStop() {
+        viewModelScope.launch {
+            try {
+                esp32.sendMessage(jsonEncodeStopData(sData))
             } catch (e:Exception) {
                 Log.i(">>>>>", "Error sending pData ${e.message}" + e.toString())
             }
@@ -316,7 +327,8 @@ class MainViewModel : ViewModel() {
     fun sendRoundData(selectedItem: String) {
         viewModelScope.launch {
             try {
-                esp32.sendMessage(jsonEncodeRound(round))
+                //esp32.sendMessage(jsonEncodeRound(round))
+                esp32.sendMessage(jsonEncodeRound(selectedItem))
             } catch (e:Exception) {
                 Log.i(">>>>>", "Error sending pData ${e.message}" + e.toString())
             }
@@ -339,15 +351,21 @@ class MainViewModel : ViewModel() {
         return obj.toString()
     }
 
-    private fun jsonEncodePlayData(pData: Data): String {
+    private fun jsonEncodePlayData(pData: Play): String {
         val obj = JSONObject()
         obj.put("PLAY", pData.play)
         return obj.toString()
     }
 
-    private fun jsonEncodeRound(round: Round): String {
+    private fun jsonEncodeStopData(sData: Stop): String {
         val obj = JSONObject()
-        obj.put("ROUND", round.roundnr)
+        obj.put("STOP", sData.stop)
+        return obj.toString()
+    }
+
+    private fun jsonEncodeRound(selectedItem: String): String {
+        val obj = JSONObject()
+        obj.put("ROUND", selectedItem)
         return obj.toString()
     }
 

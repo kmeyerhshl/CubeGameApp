@@ -11,6 +11,12 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
 
+    <string name="request_wifi_enable">WLAN aktivieren?</string>
+    <string name="finding_wifi_failed_please_create_connection">Es konnte keine Wlan-Verbindung gefunden werden. Bitte stellen Sie eine Internetverbindung her.</string>
+    <string name="please_connect_internet">Bitte überprüfen Sie die Internetverbindung</string>
+    <string name="negButton">Abbruch</string>
+
+
     //Home Fragment
     <string name="bt_not_available">BT nicht verfügbar</string>
     <string name="ble_not_supported">BT nicht unterstützt</string>

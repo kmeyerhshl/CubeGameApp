@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.cubegameapp.databinding.FragmentGameBinding
@@ -38,6 +39,7 @@ class GameFragment : Fragment() {
     private var newB: String = ""
     private var winner: String = ""
     private var gameOver = false
+    private var prevSeite: String = ""
 
 
     // This property is only valid between onCreateView and
@@ -93,15 +95,14 @@ class GameFragment : Fragment() {
 
 
 
-        //TODO: wenn Rundenanzahl erreicht
         //---Daten senden und empfangen---
-        /*val scope = MainScope()
+        val scope = MainScope()
         scope.launch {
             delay(3000)
             Log.i(TAG, "delay")
-            viewModel.sendData()
-            viewModel.startDataLoadJob()
-        }*/
+            //viewModel.sendDataPlay()
+            //viewModel.startDataLoadJob()
+        }
 
 
         //---Name Team A---
@@ -116,14 +117,92 @@ class GameFragment : Fragment() {
 
         //---empfangene Daten---
         viewModel.esp32Data.observe(viewLifecycleOwner) {data ->
-            binding.tvData.text = "${data.playStatus}\n${data.seite}"
-            // process data ....
+            //binding.tvData.text = "${data.playStatus}\n${data.seite}"
+            if (data.seite == prevSeite) {
+                toast("Nochmal würfeln")
+            } else {
+                binding.tvData.text = "${data.seite}"
+                if (data.seite == "1") {
+                    //viewModel.sendDataStop()
+                    viewModel.cancelDataLoadJob()
+                    binding.iv1.isVisible = true
+                    binding.iv2.isVisible = false
+                    binding.iv3.isVisible = false
+                    binding.iv4.isVisible = false
+                    binding.iv5.isVisible = false
+                    binding.iv6.isVisible = false
+                    prevSeite = data.seite
+                    Log.i(TAG, "Previous: $prevSeite")
+                }
+                if (data.seite == "2") {
+                    //viewModel.sendDataStop()
+                    viewModel.cancelDataLoadJob()
+                    binding.iv1.isVisible = false
+                    binding.iv2.isVisible = true
+                    binding.iv3.isVisible = false
+                    binding.iv4.isVisible = false
+                    binding.iv5.isVisible = false
+                    binding.iv6.isVisible = false
+                    prevSeite = data.seite
+                    Log.i(TAG, "Previous: $prevSeite")
+                }
+                if (data.seite == "3") {
+                    //viewModel.sendDataStop()
+                    viewModel.cancelDataLoadJob()
+                    binding.iv1.isVisible = false
+                    binding.iv2.isVisible = false
+                    binding.iv3.isVisible = true
+                    binding.iv4.isVisible = false
+                    binding.iv5.isVisible = false
+                    binding.iv6.isVisible = false
+                    prevSeite = data.seite
+                    Log.i(TAG, "Previous: $prevSeite")
+                }
+                if (data.seite == "4") {
+                    //viewModel.sendDataStop()
+                    viewModel.cancelDataLoadJob()
+                    binding.iv1.isVisible = false
+                    binding.iv2.isVisible = false
+                    binding.iv3.isVisible = false
+                    binding.iv4.isVisible = true
+                    binding.iv5.isVisible = false
+                    binding.iv6.isVisible = false
+                    prevSeite = data.seite
+                    Log.i(TAG, "Previous: $prevSeite")
+                }
+                if (data.seite == "5") {
+                    //viewModel.sendDataStop()
+                    viewModel.cancelDataLoadJob()
+                    binding.iv1.isVisible = false
+                    binding.iv2.isVisible = false
+                    binding.iv3.isVisible = false
+                    binding.iv4.isVisible = false
+                    binding.iv5.isVisible = true
+                    binding.iv6.isVisible = false
+                    prevSeite = data.seite
+                    Log.i(TAG, "Previous: $prevSeite")
+                }
+                if (data.seite == "6") {
+                    //viewModel.sendDataStop()
+                    viewModel.cancelDataLoadJob()
+                    binding.iv1.isVisible = false
+                    binding.iv2.isVisible = false
+                    binding.iv3.isVisible = false
+                    binding.iv4.isVisible = false
+                    binding.iv5.isVisible = false
+                    binding.iv6.isVisible = true
+                    prevSeite = data.seite
+                    Log.i(TAG, "Previous: $prevSeite")
+                }
+            }
         }
 
 
         //---Wiederholen---
         binding.btnRepeat.setOnClickListener {
+            viewModel.startDataLoadJob()
             viewModel.sendDataRepeat()
+            viewModel.sendDataPlay()
         }
 
 
@@ -165,6 +244,8 @@ class GameFragment : Fragment() {
                 Log.i(TAG, "Status: $gameOver")
                 checkRound()
             }
+            //viewModel.sendDataPlay()
+            viewModel.sendDataStop()
         }
 
         binding.btnB.setOnClickListener {
@@ -195,10 +276,13 @@ class GameFragment : Fragment() {
                 Log.i(TAG, "Status: $gameOver")
                 checkRound()
             }
+            //viewModel.sendDataPlay()
+            viewModel.sendDataStop()
         }
 
         binding.fabBack.setOnClickListener {
             findNavController().navigate(R.id.action_gameFragment_to_SecondFragment)
+            viewModel.sendDataStop()
         }
 
 
@@ -217,6 +301,7 @@ class GameFragment : Fragment() {
                 .setTitle(resources.getString(R.string.dialogEnd))
                 .setMessage(winner)
                 .setPositiveButton(resources.getString(R.string.dialogEnter)) { dialog, which ->
+                    viewModel.sendDataStop()
                     findNavController().navigate(R.id.action_gameFragment_to_FirstFragment)
                 }
                 .show()
@@ -225,6 +310,7 @@ class GameFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        viewModel.sendDataStop()
         viewModel.cancelDataLoadJob()
     }
 }
