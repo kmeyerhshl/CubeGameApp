@@ -40,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnB"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRepeat" />
+        app:layout_constraintTop_toBottomOf="@+id/btnDice" />
 
     <Button
         android:id="@+id/btnB"
@@ -56,14 +56,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnA"
-        app:layout_constraintTop_toBottomOf="@+id/btnRepeat" />
+        app:layout_constraintTop_toBottomOf="@+id/btnDice" />
 
     <Button
-        android:id="@+id/btnRepeat"
+        android:id="@+id/btnDice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="210dp"
-        android:text="@string/btnRepeat"
+        android:text="@string/btnDice"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -72,11 +72,10 @@
         android:id="@+id/tvNameA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginStart="64dp"
         android:hint="@string/teamA"
-        app:layout_constraintStart_toStartOf="@+id/fabBack"
-        app:layout_constraintTop_toBottomOf="@+id/fabBack" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvData"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvNameB"
@@ -88,18 +87,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvNameA" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="14dp"
-        android:clickable="true"
-        android:src="@drawable/baseline_arrow_back_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
-
     <ImageView
         android:id="@+id/iv1"
         android:layout_width="187dp"
@@ -107,7 +94,7 @@
         android:layout_marginTop="83dp"
         android:layout_marginBottom="79dp"
         android:src="@drawable/eins"
-        app:layout_constraintBottom_toTopOf="@+id/btnRepeat"
+        app:layout_constraintBottom_toTopOf="@+id/btnDice"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvData" />
@@ -119,10 +106,10 @@
         android:layout_marginTop="83dp"
         android:layout_marginBottom="79dp"
         android:src="@drawable/zwei"
-        app:layout_constraintBottom_toTopOf="@+id/btnRepeat"
+        app:layout_constraintBottom_toTopOf="@+id/btnDice"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvData"/>
+        app:layout_constraintTop_toTopOf="@+id/tvData" />
 
     <ImageView
         android:id="@+id/iv3"
@@ -131,7 +118,7 @@
         android:layout_marginTop="83dp"
         android:layout_marginBottom="79dp"
         android:src="@drawable/drei"
-        app:layout_constraintBottom_toTopOf="@+id/btnRepeat"
+        app:layout_constraintBottom_toTopOf="@+id/btnDice"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvData" />
@@ -141,7 +128,7 @@
         android:layout_width="187dp"
         android:layout_height="193dp"
         android:src="@drawable/vier"
-        app:layout_constraintBottom_toTopOf="@+id/btnRepeat"
+        app:layout_constraintBottom_toTopOf="@+id/btnDice"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvData" />
@@ -151,7 +138,7 @@
         android:layout_width="187dp"
         android:layout_height="193dp"
         android:src="@drawable/fuenf"
-        app:layout_constraintBottom_toTopOf="@+id/btnRepeat"
+        app:layout_constraintBottom_toTopOf="@+id/btnDice"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvData" />
@@ -161,9 +148,9 @@
         android:layout_width="187dp"
         android:layout_height="193dp"
         android:src="@drawable/sechs"
-        app:layout_constraintBottom_toTopOf="@+id/btnRepeat"
+        app:layout_constraintBottom_toTopOf="@+id/btnDice"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvData"  />
+        app:layout_constraintTop_toTopOf="@+id/tvData" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.cubegameapp.databinding.FragmentPlayerBinding
+import com.example.cubegameapp.model.ConnectState
 import com.example.cubegameapp.model.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
@@ -143,7 +144,12 @@ class PlayerFragment : Fragment() {
                     viewModel.selectPlayerB(playerName)
                 }
             }
-            showDialogTeams()
+            if (viewModel.selectedPlayerListA.value?.isEmpty() == true || viewModel.selectedPlayerListB.value?.isEmpty() == true) {
+                Log.i(TAG, "Liste ist leer")
+                toast("Bitte Spieler auswählen")
+            } else {
+                showDialogTeams()
+            }
             /*var itemSelected = "Selected items: \n"
             for (i in 0 until binding.lvPlayer.count) {
                 if (binding.lvPlayer.isItemChecked(i)) {
@@ -164,10 +170,18 @@ class PlayerFragment : Fragment() {
             //findNavController().navigate(R.id.action_SecondFragment_to_gameFragment)
         }
 
-
-        //Button zurück
-        binding.buttonSecond.setOnClickListener {
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+        // Mittels Observer über Änderungen des connect status informieren
+        viewModel.connectState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                ConnectState.NOT_CONNECTED -> {
+                    toast("Bluetooth-Verbindung abgebrochen")
+                    findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+                }
+                ConnectState.NO_DEVICE -> {
+                    toast("kein Bluetooth Gerät")
+                    findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+                }
+            }
         }
     }
 

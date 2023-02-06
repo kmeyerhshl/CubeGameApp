@@ -51,7 +51,7 @@
     <string name="dialogEnter">Bestätigen</string>
     <string name="teamA">Team A</string>
     <string name="teamB">Team B</string>
-    <string name="btnRepeat">Wiederholen</string>
+    <string name="btnDice">Würfeln</string>
     <string name="scoreA">Spielstand Team A: %s Punkte</string>
     <string name="scoreB">Spielstand Team B: %s Punkte</string>
     <string name="dialogEnd">Der Gewinner ist:</string>

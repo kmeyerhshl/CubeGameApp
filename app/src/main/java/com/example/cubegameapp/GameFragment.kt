@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.cubegameapp.databinding.FragmentGameBinding
+import com.example.cubegameapp.model.ConnectState
 import com.example.cubegameapp.model.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.MainScope
@@ -199,7 +200,7 @@ class GameFragment : Fragment() {
 
 
         //---Wiederholen---
-        binding.btnRepeat.setOnClickListener {
+        binding.btnDice.setOnClickListener {
             viewModel.startDataLoadJob()
             viewModel.sendDataRepeat()
             viewModel.sendDataPlay()
@@ -280,12 +281,19 @@ class GameFragment : Fragment() {
             viewModel.sendDataStop()
         }
 
-        binding.fabBack.setOnClickListener {
-            findNavController().navigate(R.id.action_gameFragment_to_SecondFragment)
-            viewModel.sendDataStop()
+        // Mittels Observer über Änderungen des connect status informieren
+        viewModel.connectState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                ConnectState.NOT_CONNECTED -> {
+                    toast("Bluetooth-Verbindung abgebrochen")
+                    findNavController().navigate(R.id.action_gameFragment_to_FirstFragment)
+                }
+                ConnectState.NO_DEVICE -> {
+                    toast("kein Bluetooth Gerät")
+                    findNavController().navigate(R.id.action_gameFragment_to_FirstFragment)
+                }
+            }
         }
-
-
     }
 
 
@@ -311,6 +319,6 @@ class GameFragment : Fragment() {
         super.onDestroyView()
         _binding = null
         viewModel.sendDataStop()
-        viewModel.cancelDataLoadJob()
+        //viewModel.cancelDataLoadJob()
     }
 }
