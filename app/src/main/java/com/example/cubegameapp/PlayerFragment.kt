@@ -56,9 +56,6 @@ class PlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //var itemlist = arrayListOf<String>()
-        //var adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_multiple_choice, itemlist)
-
 
         //Verwendungszweck
         useSelected = viewModel.getUseSelected()
@@ -68,13 +65,6 @@ class PlayerFragment : Fragment() {
         val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_multiple_choice,viewModel.getPlayerList()!!)
         binding.lvPlayer.adapter = adapter
         viewModel.playerList.observe(viewLifecycleOwner) { adapter.notifyDataSetChanged() }
-
-
-        //ListView ohne ViewModel
-        //playerList = ArrayList()
-        //adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_multiple_choice, playerList)
-        //binding.lvPlayer.adapter = adapter
-
 
 
         //Spieler hinzufügen
@@ -95,7 +85,6 @@ class PlayerFragment : Fragment() {
                             adapter.notifyDataSetChanged()
                             Log.i(TAG,"neuer Spieler: $playerName")
                         }
-                        //playerList.add(playerName)
                     }
                     .show()
             }
@@ -110,17 +99,6 @@ class PlayerFragment : Fragment() {
                 }
             }
             adapter.notifyDataSetChanged()
-            /*val position: SparseBooleanArray = binding.lvPlayer.checkedItemPositions
-            val count = binding.lvPlayer.count
-            var item = count - 1
-            while (item>=0) {
-                if (position.get(item)) {
-                    adapter.remove(playerList.get(item))
-                }
-                item--
-            }
-            position.clear()
-            adapter.notifyDataSetChanged()*/
         }
 
         binding.btnTeams.setOnClickListener {
@@ -213,35 +191,6 @@ class PlayerFragment : Fragment() {
         dialog.show()
     }
 
-    private fun showDialogAdd() {
-        val editTextView = EditText(this.context)
-        this?.let {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.dialogAdd)
-                .setView(editTextView)
-                .setNeutralButton(R.string.dialog_cancel2) { dialog, which ->
-                }
-                .setPositiveButton(R.string.dialog_ok) { dialog, which ->
-                    val playerName = editTextView.text.toString()
-                    playerList.add(playerName)
-                    adapter.notifyDataSetChanged()
-                    //viewModel.addPlayer(playerName)
-                    Log.i(TAG,"neuer Spieler: $playerName")
-                }
-                .show()
-        }
-    }
-
-    /*private fun showDialogDelete(selectedItem: String) {
-        context?.let {
-            MaterialAlertDialogBuilder(it)
-                .setTitle(R.string.dialogDelete)
-                .setPositiveButton(R.string.dialog_ok) { dialog, which ->
-                    viewModel.deletePlayer(selectedItem)
-                }
-                .show()
-        }
-    }*/
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -3,6 +3,8 @@ import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 plugins {
     id("com.android.application") // or id("com.android.library")
     kotlin("multiplatform")
+    id("com.google.gms.google-services")
+
 }
 
 kotlin {
@@ -32,7 +34,7 @@ android {
     compileSdk = 32
 
     defaultConfig {
-        applicationId = "com.example.kablelibtest"
+        applicationId = "com.example.cubegameapp"
         minSdk = 26
         targetSdk = 32
         versionCode = 1

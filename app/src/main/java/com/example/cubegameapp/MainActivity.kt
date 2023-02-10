@@ -20,8 +20,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.content.PermissionChecker
 import com.example.cubegameapp.databinding.ActivityMainBinding
+import com.example.cubegameapp.model.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -42,6 +44,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
+    private val viewModel: MainViewModel by viewModels()
+
+    private val LISTSIZE = "listsize"
+    private val LISTITEM = "item_"
+    private val SELECTEDITEM ="selected"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //Firebase
-        /*auth = Firebase.auth
+        auth = Firebase.auth
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         updateUI(currentUser)
@@ -103,11 +110,14 @@ class MainActivity : AppCompatActivity() {
             Log.i(TAG,"Eingeloggt")
         } else {
             signIn()
-        }*/
+        }
+
+        readSharedPreferences()
+
 
     }
 
-    /*private fun signIn() {
+    private fun signIn() {
         auth.signInAnonymously()
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -127,9 +137,36 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateUI(user: FirebaseUser?) {
         Log.i(TAG,"updateUI")
-    }*/
+    }
 
+    override fun onPause() {
+        super.onPause()
+        Log.i(TAG, "onPause")
+        writeSharedPreferences()
+    }
 
+    private fun writeSharedPreferences() {
+        Log.i(TAG, "writeSharedPreferences")
+        // speicher die Spielerliste
+        val sp = getPreferences(Context.MODE_PRIVATE)
+        val edit = sp.edit()
+        val list = viewModel.getPlayerList()!!
+        edit.putInt(LISTSIZE, list.size)
+        for(i in 0 until list.size){
+            edit.putString("$LISTITEM$i", list.get(i))
+        }
+        edit.commit()
+    }
+
+    private fun readSharedPreferences() {
+        Log.i(TAG, "readSharedPreferences")
+        // Spieler wieder einlesen
+        val sp = getPreferences(Context.MODE_PRIVATE)
+        val anzahl = sp.getInt(LISTSIZE, 0)
+        for(i in 0 until anzahl){
+            viewModel.addPlayer(sp.getString("$LISTITEM$i", "").toString())
+        }
+    }
 
     private fun checkBTPermission() {
         var permissionCheck = PermissionChecker.checkSelfPermission(this, "Manifest.permission.ACCESS_FINE_LOCATION")
