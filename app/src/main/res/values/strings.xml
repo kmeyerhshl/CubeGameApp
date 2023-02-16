@@ -34,6 +34,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="menuUse">Wählen Sie einen Verwendungszweck</string>
+
 
     //Player Fragment
     <string name="dialogAdd">Spieler hinzufügen</string>
@@ -49,11 +51,18 @@
     //Game Fragment
     <string name="dialogTitle">Wie viele Runden wollen Sie spielen?</string>
     <string name="dialogEnter">Bestätigen</string>
+    <string name="rounds">Runde: </string>
     <string name="teamA">Team A</string>
     <string name="teamB">Team B</string>
     <string name="btnDice">Würfeln</string>
     <string name="scoreA">Spielstand Team A: %s Punkte</string>
     <string name="scoreB">Spielstand Team B: %s Punkte</string>
     <string name="dialogEnd">Der Gewinner ist:</string>
+    <string name="dialogEx">ÜBUNG:</string>
+    <string name="dialogDone">Fertig</string>
+
+
+    //Exercise Fragment
+    <string name="tvTitle">Wer war schneller?</string>
 
 </resources>

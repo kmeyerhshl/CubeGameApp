@@ -6,13 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".GameFragment">
 
+
     <TextView
         android:id="@+id/tvRunden"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="46dp"
-        android:hint="Anzahl Runden"
+        android:layout_marginTop="48dp"
+        android:hint="Runden..."
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,137 +25,117 @@
         android:id="@+id/tvData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="53dp"
+        android:layout_marginTop="184dp"
         android:hint="Daten..."
-        app:layout_constraintStart_toStartOf="@+id/tvRunden"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRunden" />
 
-    <Button
-        android:id="@+id/btnA"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="9dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/blue"
-        android:text="@string/teamA"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnB"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnDice" />
-
-    <Button
-        android:id="@+id/btnB"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="9dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/red"
-        android:text="@string/teamB"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnA"
-        app:layout_constraintTop_toBottomOf="@+id/btnDice" />
-
-    <Button
-        android:id="@+id/btnDice"
+    <TextView
+        android:id="@+id/tvTeamA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="210dp"
-        android:text="@string/btnDice"
+        android:layout_marginTop="56dp"
+        android:hint="@string/teamA"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/tvTeamB"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRunden" />
+
+    <TextView
+        android:id="@+id/tvTeamB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:hint="@string/teamB"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvTeamA"
+        app:layout_constraintTop_toBottomOf="@+id/tvRunden" />
+
+    <ImageView
+        android:id="@+id/iv6"
+        android:layout_width="321dp"
+        android:layout_height="296dp"
+        android:src="@drawable/sechs"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvData" />
+
+    <ImageView
+        android:id="@+id/iv2"
+        android:layout_width="321dp"
+        android:layout_height="296dp"
+        android:src="@drawable/zwei"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvData" />
+
+    <ImageView
+        android:id="@+id/iv4"
+        android:layout_width="321dp"
+        android:layout_height="296dp"
+        android:src="@drawable/vier"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvData" />
+
+    <ImageView
+        android:id="@+id/iv5"
+        android:layout_width="321dp"
+        android:layout_height="296dp"
+        android:src="@drawable/fuenf"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvData" />
+
+    <ImageView
+        android:id="@+id/iv1"
+        android:layout_width="321dp"
+        android:layout_height="296dp"
+        android:src="@drawable/eins"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvData" />
+
+    <ImageView
+        android:id="@+id/iv3"
+        android:layout_width="321dp"
+        android:layout_height="296dp"
+        android:src="@drawable/drei"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvData" />
 
     <TextView
         android:id="@+id/tvNameA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:hint="@string/teamA"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvData"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="30dp"
+        android:hint="Name A"
+        app:layout_constraintEnd_toStartOf="@id/tvNameB"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTeamA" />
 
     <TextView
         android:id="@+id/tvNameB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="64dp"
-        android:hint="@string/teamB"
-        app:layout_constraintBottom_toBottomOf="@+id/tvNameA"
+        android:layout_marginTop="30dp"
+        android:hint="Name B"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvNameA" />
-
-    <ImageView
-        android:id="@+id/iv1"
-        android:layout_width="187dp"
-        android:layout_height="193dp"
-        android:layout_marginTop="83dp"
-        android:layout_marginBottom="79dp"
-        android:src="@drawable/eins"
-        app:layout_constraintBottom_toTopOf="@+id/btnDice"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvData" />
-
-    <ImageView
-        android:id="@+id/iv2"
-        android:layout_width="187dp"
-        android:layout_height="193dp"
-        android:layout_marginTop="83dp"
-        android:layout_marginBottom="79dp"
-        android:src="@drawable/zwei"
-        app:layout_constraintBottom_toTopOf="@+id/btnDice"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvData" />
-
-    <ImageView
-        android:id="@+id/iv3"
-        android:layout_width="187dp"
-        android:layout_height="193dp"
-        android:layout_marginTop="83dp"
-        android:layout_marginBottom="79dp"
-        android:src="@drawable/drei"
-        app:layout_constraintBottom_toTopOf="@+id/btnDice"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvData" />
-
-    <ImageView
-        android:id="@+id/iv4"
-        android:layout_width="187dp"
-        android:layout_height="193dp"
-        android:src="@drawable/vier"
-        app:layout_constraintBottom_toTopOf="@+id/btnDice"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvData" />
-
-    <ImageView
-        android:id="@+id/iv5"
-        android:layout_width="187dp"
-        android:layout_height="193dp"
-        android:src="@drawable/fuenf"
-        app:layout_constraintBottom_toTopOf="@+id/btnDice"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvData" />
-
-    <ImageView
-        android:id="@+id/iv6"
-        android:layout_width="187dp"
-        android:layout_height="193dp"
-        android:src="@drawable/sechs"
-        app:layout_constraintBottom_toTopOf="@+id/btnDice"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvData" />
+        app:layout_constraintStart_toEndOf="@id/tvNameA"
+        app:layout_constraintTop_toBottomOf="@id/tvTeamB" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

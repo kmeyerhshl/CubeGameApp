@@ -13,6 +13,9 @@ import com.example.cubegameapp.databinding.FragmentGameBinding
 import com.example.cubegameapp.model.ConnectState
 import com.example.cubegameapp.model.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.EventListener
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -41,6 +44,9 @@ class GameFragment : Fragment() {
     private var winner: String = ""
     private var gameOver = false
     private var prevSeite: String = ""
+
+    private val mFirebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    private val db : FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
 
     // This property is only valid between onCreateView and
@@ -94,6 +100,7 @@ class GameFragment : Fragment() {
             }
             .show()
 
+        binding.tvRunden.text = "Runde: $rounds / $nrRounds"
 
 
         //---Daten senden und empfangen---
@@ -122,7 +129,7 @@ class GameFragment : Fragment() {
             if (data.seite == prevSeite) {
                 toast("Nochmal würfeln")
             } else {
-                binding.tvData.text = "${data.seite}"
+                binding.tvData.text = "Würfelseite: ${data.seite}"
                 if (data.seite == "1") {
                     //viewModel.sendDataStop()
                     viewModel.cancelDataLoadJob()
@@ -200,15 +207,15 @@ class GameFragment : Fragment() {
 
 
         //---Wiederholen---
-        binding.btnDice.setOnClickListener {
+        /*binding.btnDice.setOnClickListener {
             viewModel.startDataLoadJob()
             viewModel.sendDataRepeat()
             viewModel.sendDataPlay()
-        }
+        }*/
 
 
         //---Gewinner wählen---
-        binding.btnA.setOnClickListener {
+        /*binding.btnA.setOnClickListener {
             scoreA++
             rounds++
             Log.i(TAG, "Runde: $rounds")
@@ -247,9 +254,10 @@ class GameFragment : Fragment() {
             }
             //viewModel.sendDataPlay()
             viewModel.sendDataStop()
-        }
+            showDialog()
+        }*/
 
-        binding.btnB.setOnClickListener {
+        /*binding.btnB.setOnClickListener {
             scoreB++
             rounds++
             Log.i(TAG, "Runde: $rounds")
@@ -279,7 +287,7 @@ class GameFragment : Fragment() {
             }
             //viewModel.sendDataPlay()
             viewModel.sendDataStop()
-        }
+        }*/
 
         // Mittels Observer über Änderungen des connect status informieren
         viewModel.connectState.observe(viewLifecycleOwner) { state ->
@@ -296,6 +304,34 @@ class GameFragment : Fragment() {
         }
     }
 
+    private fun getExercise() {
+        db.collection("Sport").document("1")
+            .addSnapshotListener(EventListener { value, e ->
+                if (e != null) {
+                    return@EventListener
+                }
+                //updateListOnChange(value!!)
+            })
+    }
+
+    private fun showDialog() {
+        context?.let {
+            MaterialAlertDialogBuilder(it)
+                .setTitle(R.string.dialogEx)
+                .setView(R.layout.custom_pop_up_layout)
+                    db.collection("Sport").document("1")
+                        .addSnapshotListener(EventListener { value, e ->
+                            if (e != null) {
+                                return@EventListener
+                            }
+
+                        })
+                //.setNeutralButton(R.string.dialog_cancel) { dialog, which ->                }
+                //.setPositiveButton(R.string.dialogDone) { dialog, which ->
+                    //viewModel.setTerminSelected(selectedItem)}
+                //.show()
+        }
+    }
 
     private fun checkRound() {
             //gameOver = true
