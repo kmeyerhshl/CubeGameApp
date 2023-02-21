@@ -58,8 +58,9 @@
     <string name="scoreA">Spielstand Team A: %s Punkte</string>
     <string name="scoreB">Spielstand Team B: %s Punkte</string>
     <string name="dialogEnd">Der Gewinner ist:</string>
-    <string name="dialogEx">ÜBUNG:</string>
-    <string name="dialogDone">Fertig</string>
+    <string name="dialogT">Gewürfelt wurde:</string>
+    <string name="dialogYes">Bereit!</string>
+    <string name="dialogNo">Nochmal würfeln!</string>
 
 
     //Exercise Fragment

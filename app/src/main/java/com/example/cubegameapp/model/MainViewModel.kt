@@ -80,6 +80,81 @@ class MainViewModel : ViewModel() {
         Log.i(TAG,_selectedUse.value.toString())
     }
 
+
+    //---ausgewählte Runden---
+    private var _roundsSelected = MutableLiveData<Int>()
+    val roundsSelected: LiveData<Int>
+        get() = _roundsSelected
+
+    fun setRoundsSelected(rounds: Int) {
+        _roundsSelected.value = rounds
+    }
+
+    fun getRoundsSelected(): String {
+        val rounds = _roundsSelected.value
+        return rounds.toString()
+    }
+
+
+    //---Rundenanzahl hochrechnen---
+    private var _btnCounter = MutableLiveData<Int>()
+    val btnCounter: LiveData<Int>
+        get() = _btnCounter
+
+    fun incBtnCounter() {
+        _btnCounter.value = (_btnCounter.value ?: 0) + 1
+        Log.i(TAG, "btnCounter = ${_btnCounter.value}")
+    }
+
+    fun resetBtnCounter() {
+        _btnCounter.value = 0
+        Log.i(TAG, "BtnCounter zurückgesetzt")
+    }
+
+
+    //---Punktezahl hochrechnen---
+    private var _counterA = MutableLiveData<Int>()
+    val counterA: LiveData<Int>
+        get() = _counterA
+
+    fun incCounterA() {
+        _counterA.value = (_counterA.value ?: 0) + 1
+        Log.i(TAG, "counterA = ${_counterA.value}")
+    }
+
+    fun resetCounterA() {
+        _counterA.value = 0
+        Log.i(TAG, "counterA zurückgesetzt")
+    }
+
+    private var _counterB = MutableLiveData<Int>()
+    val counterB: LiveData<Int>
+        get() = _counterB
+
+    fun incCounterB() {
+        _counterB.value = (_counterB.value ?: 0) + 1
+        Log.i(TAG, "counterB = ${_counterB.value}")
+    }
+
+    fun resetCounterB() {
+        _counterB.value = 0
+        Log.i(TAG, "counterB zurückgesetzt")
+    }
+
+
+    //---Boolean---
+    private val _booleanNext = MutableLiveData<Boolean>(false)
+    val booleanNext: LiveData<Boolean>
+        get() = _booleanNext
+
+    fun switchBoolean() {
+        _booleanNext.value?.let {
+            _booleanNext.value = !it
+        }
+        Log.i(TAG, _booleanNext.toString())
+    }
+
+
     //---Liste Spieler---
     private val _playerList = MutableLiveData<MutableList<String>>()
     val playerList: LiveData<MutableList<String>>
@@ -111,6 +186,7 @@ class MainViewModel : ViewModel() {
     init {
         _deviceList.value = mutableListOf()
         _selectedUse.value = ""
+        _btnCounter.value = 1
         _playerList.value = mutableListOf()
         _selectedPlayerListA.value = mutableListOf()
         _selectedPlayerListB.value = mutableListOf()
@@ -271,6 +347,7 @@ class MainViewModel : ViewModel() {
     var sData = Stop()
     var repeatData = Repeat()
     var round = Round()
+    var gameStatus = GameStatus()
 
     private lateinit var dataLoadJob: Job
 
@@ -290,6 +367,7 @@ class MainViewModel : ViewModel() {
 
     fun cancelDataLoadJob() {
         dataLoadJob.cancel()
+        Log.i(TAG, "CancelDataLoadjob")
     }
 
     //Daten Spielen
@@ -324,7 +402,7 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun sendRoundData(selectedItem: String) {
+    fun sendRoundData(selectedItem: Int) {
         viewModelScope.launch {
             try {
                 //esp32.sendMessage(jsonEncodeRound(round))
@@ -333,6 +411,22 @@ class MainViewModel : ViewModel() {
                 Log.i(">>>>>", "Error sending pData ${e.message}" + e.toString())
             }
         }
+    }
+
+    fun sendGameStatus() {
+        viewModelScope.launch {
+            try {
+                esp32.sendMessage(jsonEncodeGameStatus(gameStatus))
+            } catch (e: Exception) {
+                Log.i(">>>>>", "Error sending ledData ${e.message}" + e.toString())
+            }
+        }
+    }
+
+    private fun jsonEncodeGameStatus(gameStatus: GameStatus): String {
+        val obj = JSONObject()
+        obj.put("GameStatus", gameStatus.gameStatus)
+        return obj.toString()
     }
 
     /*fun sendLedData() {
@@ -363,7 +457,7 @@ class MainViewModel : ViewModel() {
         return obj.toString()
     }
 
-    private fun jsonEncodeRound(selectedItem: String): String {
+    private fun jsonEncodeRound(selectedItem: Int): String {
         val obj = JSONObject()
         obj.put("ROUND", selectedItem)
         return obj.toString()
@@ -381,7 +475,7 @@ class MainViewModel : ViewModel() {
             val obj = JSONObject(jsonString)
             return Esp32Data(
                 playStatus = obj.getString("playStatus"),
-                seite = obj.getString("seite")
+                seite = obj.getString("seite"),
                 //ledstatus = obj.getString("ledstatus"),
                 //potiArray = obj.getJSONArray("potiArray")
             )

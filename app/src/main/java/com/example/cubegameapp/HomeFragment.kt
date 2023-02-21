@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.cubegameapp.databinding.FragmentHomeBinding
 import com.example.cubegameapp.model.ConnectState
 import com.example.cubegameapp.model.MainViewModel
@@ -78,7 +79,7 @@ class HomeFragment : Fragment() {
             Log.i(TAG, "Button1")
             //useSelected = button1
             //viewModel.setUseSelected(useSelected)
-            //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
 
 
