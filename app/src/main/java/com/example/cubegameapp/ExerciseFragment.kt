@@ -12,6 +12,9 @@ import com.example.cubegameapp.databinding.FragmentExerciseBinding
 import com.example.cubegameapp.model.ConnectState
 import com.example.cubegameapp.model.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.EventListener
+import com.google.firebase.firestore.FirebaseFirestore
 import splitties.toast.toast
 
 
@@ -31,6 +34,9 @@ class ExerciseFragment : Fragment() {
     var roundsVM: Int = 0
     var counterVM: Int = 0
 
+    //Variablen für Datenbank
+    private val mFirebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    private val db : FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -101,6 +107,7 @@ class ExerciseFragment : Fragment() {
                 checkRound()
             } else {
                 //viewModel.switchBoolean()
+                viewModel.switchAD()
                 findNavController().navigate(R.id.action_exerciseFragment_to_gameFragment)
             }
 
@@ -150,6 +157,7 @@ class ExerciseFragment : Fragment() {
                 checkRound()
             } else {
                 //viewModel.switchBoolean()
+                viewModel.switchAD()
                 findNavController().navigate(R.id.action_exerciseFragment_to_gameFragment)
             }
             //viewModel.sendDataPlay()
@@ -189,14 +197,28 @@ class ExerciseFragment : Fragment() {
             .setTitle(resources.getString(R.string.dialogEnd))
             .setMessage(winner)
             .setPositiveButton(resources.getString(R.string.dialogEnter)) { dialog, which ->
-                viewModel.sendDataStop()
+                //viewModel.sendDataStop()
+                viewModel.gameStatus.gameStatus = "F"
+                viewModel.sendGameStatus()
+                viewModel.cancelDataLoadJob()
                 viewModel.switchBoolean()
+                viewModel.switchAD()
                 viewModel.resetCounterA()
                 viewModel.resetCounterB()
                 viewModel.resetBtnCounter()
                 findNavController().navigate(R.id.action_exerciseFragment_to_FirstFragment)
             }
             .show()
+    }
+
+    private fun getExercise() {
+        db.collection("Sport").document("1")
+            .addSnapshotListener(EventListener { value, e ->
+                if (e != null) {
+                    return@EventListener
+                }
+                //updateListOnChange(value!!)
+            })
     }
 
     override fun onDestroyView() {

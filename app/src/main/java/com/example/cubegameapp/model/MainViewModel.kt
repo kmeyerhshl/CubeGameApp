@@ -90,9 +90,9 @@ class MainViewModel : ViewModel() {
         _roundsSelected.value = rounds
     }
 
-    fun getRoundsSelected(): String {
+    fun getRoundsSelected(): Int? {
         val rounds = _roundsSelected.value
-        return rounds.toString()
+        return rounds
     }
 
 
@@ -154,6 +154,17 @@ class MainViewModel : ViewModel() {
         Log.i(TAG, _booleanNext.toString())
     }
 
+    private val _booleanAD = MutableLiveData<Boolean>(false)
+    val booleanAD: LiveData<Boolean>
+        get() = _booleanAD
+
+    fun switchAD() {
+        _booleanAD.value?.let {
+            _booleanAD.value = !it
+        }
+        Log.i(TAG, _booleanAD.toString())
+    }
+
 
     //---Liste Spieler---
     private val _playerList = MutableLiveData<MutableList<String>>()
@@ -190,7 +201,6 @@ class MainViewModel : ViewModel() {
         _playerList.value = mutableListOf()
         _selectedPlayerListA.value = mutableListOf()
         _selectedPlayerListB.value = mutableListOf()
-        //_playerList.value = mutableListOf("Testtermin 1", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2", "Testtermin 2")
     }
 
     fun addPlayer(player: String) {
@@ -343,8 +353,8 @@ class MainViewModel : ViewModel() {
 
 
     //var ledData = LedData()
-    var pData = Play()
-    var sData = Stop()
+    //var pData = Play()
+    //var sData = Stop()
     var repeatData = Repeat()
     var round = Round()
     var gameStatus = GameStatus()
@@ -363,6 +373,7 @@ class MainViewModel : ViewModel() {
                 _esp32Data.value = jsonParseEsp32Data(jsonstring)
             }
         }
+        Log.i(TAG, "StartDataLoadjob")
     }
 
     fun cancelDataLoadJob() {
@@ -371,7 +382,7 @@ class MainViewModel : ViewModel() {
     }
 
     //Daten Spielen
-    fun sendDataPlay() {
+    /*fun sendDataPlay() {
         viewModelScope.launch {
             try {
                 esp32.sendMessage(jsonEncodePlayData(pData))
@@ -379,9 +390,9 @@ class MainViewModel : ViewModel() {
                 Log.i(">>>>>", "Error sending pData ${e.message}" + e.toString())
             }
         }
-    }
+    }*/
 
-    fun sendDataStop() {
+    /*fun sendDataStop() {
         viewModelScope.launch {
             try {
                 esp32.sendMessage(jsonEncodeStopData(sData))
@@ -389,7 +400,7 @@ class MainViewModel : ViewModel() {
                 Log.i(">>>>>", "Error sending pData ${e.message}" + e.toString())
             }
         }
-    }
+    }*/
 
     //Daten wiederholen
     fun sendDataRepeat() {
