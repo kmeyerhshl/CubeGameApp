@@ -30,7 +30,6 @@ class GameFragment : Fragment() {
     private val TAG = "GameFragment"
 
     private var _binding: FragmentGameBinding? = null
-
     private val viewModel: MainViewModel by activityViewModels()
 
     private var useSelected: String = ""
@@ -70,7 +69,6 @@ class GameFragment : Fragment() {
 
 
 
-
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
@@ -100,9 +98,7 @@ class GameFragment : Fragment() {
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle(resources.getString(R.string.dialogTitle))
                     .setPositiveButton(resources.getString(R.string.dialogEnter)) { dialog, which ->
-                        //binding.tvRunden.text = selectedItem
                         viewModel.sendRoundData(selectedItem.toInt())
-                        //viewModel.setRoundsSelected(selectedItem)
                         if (selectedItem == "3") {
                             nrRounds = 3
                             viewModel.setRoundsSelected(nrRounds)
@@ -120,7 +116,6 @@ class GameFragment : Fragment() {
                         }
                         nrRounds = selectedItem.toInt()
                         Log.i(TAG,"Rundennummer: $nrRounds")
-                        //viewModel.sendDataPlay()
                         viewModel.gameStatus.gameStatus = "P"
                         viewModel.sendGameStatus()
                         viewModel.startDataLoadJob()
@@ -152,34 +147,11 @@ class GameFragment : Fragment() {
                     Log.i(TAG,"Rounds: $roundsVM")
                 }
                 binding.tvRunden.text = "Runde: $counterVM / $roundsVM"
-                //viewModel.sendRoundData(viewModel.getRoundsSelected())
                 viewModel.gameStatus.gameStatus = "P"
                 viewModel.sendGameStatus()
                 viewModel.startDataLoadJob()
             }
         }
-
-
-        /*viewModel.btnCounter.observe(viewLifecycleOwner) {counter ->
-            counterVM = counter
-            Log.i(TAG,"Counter: $counterVM")
-        }
-        viewModel.roundsSelected.observe(viewLifecycleOwner) {roundsSelected ->
-            roundsVM = roundsSelected
-            Log.i(TAG,"Rounds: $roundsVM")
-        }
-        binding.tvRunden.text = "Runde: $counterVM / $roundsVM"*/
-        //binding.tvRunden.text = "Runde: ${viewModel.btnCounter} / ${viewModel.getRoundsSelected()}"
-
-
-        //---Daten senden und empfangen---
-        /*val scope = MainScope()
-        scope.launch {
-            delay(3000)
-            Log.i(TAG, "delay")
-            //viewModel.sendDataPlay()
-            //viewModel.startDataLoadJob()
-        }*/
 
 
         //---Name Team A---
@@ -192,132 +164,6 @@ class GameFragment : Fragment() {
 
 
         //---empfangene Daten---
-        //funktioniert, aber setzt nicht auf 0 zurück
-        /*viewModel.esp32Data.observe(viewLifecycleOwner) { data ->
-            viewModel.booleanAD.observe(viewLifecycleOwner) { bool1 ->
-                if (!bool1) {
-                    if (data.seite == prevSeite) {
-                        Log.i(TAG, "Nochmal würfeln")
-                    } else {
-                        binding.tvData.text = "Würfelseite: ${data.seite}"
-                        if (data.seite == "1") {
-                            if (!bool3) {
-                                time1 = LocalDateTime.now()
-                                bool3 = true
-                            }
-                            val timeDif = Duration.between(time1, LocalDateTime.now()).seconds
-                            Log.i(TAG, "Dauer1: $timeDif")
-                            if (timeDif > 10) {
-                                binding.iv1.isVisible = true
-                                binding.iv2.isVisible = false
-                                binding.iv3.isVisible = false
-                                binding.iv4.isVisible = false
-                                binding.iv5.isVisible = false
-                                binding.iv6.isVisible = false
-                                prevSeite = data.seite
-                                Log.i(TAG, "Previous: $prevSeite")
-                                showDialog()
-                            }
-                        }
-                        if (data.seite == "2") {
-                            if (!bool4) {
-                                time2 = LocalDateTime.now()
-                                bool4 = true
-                            }
-                            val timeDif = Duration.between(time2, LocalDateTime.now()).seconds
-                            Log.i(TAG, "Dauer2: $timeDif")
-                            if (timeDif > 10) {
-                                binding.iv1.isVisible = false
-                                binding.iv2.isVisible = true
-                                binding.iv3.isVisible = false
-                                binding.iv4.isVisible = false
-                                binding.iv5.isVisible = false
-                                binding.iv6.isVisible = false
-                                prevSeite = data.seite
-                                Log.i(TAG, "Previous: $prevSeite")
-                                showDialog()
-                            }
-                        }
-                        if (data.seite == "3") {
-                            if (!bool5) {
-                                time3 = LocalDateTime.now()
-                                bool5 = true
-                            }
-                            val timeDif = Duration.between(time3, LocalDateTime.now()).seconds
-                            Log.i(TAG, "Dauer3: $timeDif")
-                            if (timeDif > 10) {
-                                binding.iv1.isVisible = false
-                                binding.iv2.isVisible = false
-                                binding.iv3.isVisible = true
-                                binding.iv4.isVisible = false
-                                binding.iv5.isVisible = false
-                                binding.iv6.isVisible = false
-                                prevSeite = data.seite
-                                Log.i(TAG, "Previous: $prevSeite")
-                                showDialog()
-                            }
-                        }
-                        if (data.seite == "4") {
-                            if (!bool6) {
-                                time4 = LocalDateTime.now()
-                                bool6 = true
-                            }
-                            val timeDif = Duration.between(time4, LocalDateTime.now()).seconds
-                            Log.i(TAG, "Dauer4: $timeDif")
-                            if (timeDif > 10) {
-                                binding.iv1.isVisible = false
-                                binding.iv2.isVisible = false
-                                binding.iv3.isVisible = false
-                                binding.iv4.isVisible = true
-                                binding.iv5.isVisible = false
-                                binding.iv6.isVisible = false
-                                prevSeite = data.seite
-                                Log.i(TAG, "Previous: $prevSeite")
-                                showDialog()
-                            }
-                        }
-                        if (data.seite == "5") {
-                            if (!bool7) {
-                                time5 = LocalDateTime.now()
-                                bool7 = true
-                            }
-                            val timeDif = Duration.between(time5, LocalDateTime.now()).seconds
-                            Log.i(TAG, "Dauer5: $timeDif")
-                            if (timeDif > 10) {
-                                binding.iv1.isVisible = false
-                                binding.iv2.isVisible = false
-                                binding.iv3.isVisible = false
-                                binding.iv4.isVisible = false
-                                binding.iv5.isVisible = true
-                                binding.iv6.isVisible = false
-                                prevSeite = data.seite
-                                Log.i(TAG, "Previous: $prevSeite")
-                                showDialog()
-                            }
-                        }
-                        if (data.seite == "6") {
-                            if (!bool8) {
-                                time6 = LocalDateTime.now()
-                                bool8 = true
-                            }
-                            val timeDif = Duration.between(time6, LocalDateTime.now()).seconds
-                            Log.i(TAG, "Dauer6: $timeDif")
-                            if (timeDif > 10) {
-                                binding.iv1.isVisible = false
-                                binding.iv2.isVisible = false
-                                binding.iv3.isVisible = false
-                                binding.iv4.isVisible = false
-                                binding.iv5.isVisible = false
-                                binding.iv6.isVisible = true
-                                prevSeite = data.seite
-                                Log.i(TAG, "Previous: $prevSeite")
-                                showDialog()
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
         viewModel.esp32Data.observe(viewLifecycleOwner) { data ->
             viewModel.booleanAD.observe(viewLifecycleOwner) { bool1 ->
                 if (!bool1) {
@@ -348,6 +194,7 @@ class GameFragment : Fragment() {
                             if (timeDif1 > 10) {
                                 prevSeite = data.seite
                                 Log.i(TAG, "Previous: $prevSeite")
+                                viewModel.setDicedSide(prevSeite)
                                 showDialog()
                             }
                         }
@@ -374,6 +221,7 @@ class GameFragment : Fragment() {
                             if (timeDif2 > 10) {
                                 prevSeite = data.seite
                                 Log.i(TAG, "Previous: $prevSeite")
+                                viewModel.setDicedSide(prevSeite)
                                 showDialog()
                             }
                         }
@@ -400,6 +248,7 @@ class GameFragment : Fragment() {
                             if (timeDif3 > 10) {
                                 prevSeite = data.seite
                                 Log.i(TAG, "Previous: $prevSeite")
+                                viewModel.setDicedSide(prevSeite)
                                 showDialog()
                             }
                         }
@@ -426,6 +275,7 @@ class GameFragment : Fragment() {
                             if (timeDif4 > 10) {
                                 prevSeite = data.seite
                                 Log.i(TAG, "Previous: $prevSeite")
+                                viewModel.setDicedSide(prevSeite)
                                 showDialog()
                             }
                         }
@@ -452,6 +302,7 @@ class GameFragment : Fragment() {
                             if (timeDif5 > 10) {
                                 prevSeite = data.seite
                                 Log.i(TAG, "Previous: $prevSeite")
+                                viewModel.setDicedSide(prevSeite)
                                 showDialog()
                             }
                         }
@@ -478,6 +329,7 @@ class GameFragment : Fragment() {
                             if (timeDif6 > 10) {
                                 prevSeite = data.seite
                                 Log.i(TAG, "Previous: $prevSeite")
+                                viewModel.setDicedSide(prevSeite)
                                 showDialog()
                             }
                         }
@@ -485,502 +337,6 @@ class GameFragment : Fragment() {
                 }
             }
         }
-        //zeitmessung
-        /*viewModel.esp32Data.observe(viewLifecycleOwner) { data ->
-            viewModel.booleanAD.observe(viewLifecycleOwner) { bool1 ->
-                if (!bool1) {
-                    if (data.seite == prevSeite) {
-                        Log.i(TAG, "Nochmal würfeln")
-                    } else {
-                        binding.tvData.text = "Würfelseite: ${data.seite}"
-                        //---Seite 1---
-                        if (data.seite == "1") {
-                            if (!bool3) {
-                                time1 = LocalDateTime.now()
-                                bool3 = true
-                                bool4 = false
-                                bool5 = false
-                                bool6 = false
-                                bool7 = false
-                                bool8 = false
-                            }
-                            val timeDif = Duration.between(time1, LocalDateTime.now()).seconds
-                            Log.i(TAG, "Dauer1: $timeDif")
-
-                            binding.iv1.isVisible = true
-                            binding.iv2.isVisible = false
-                            binding.iv3.isVisible = false
-                            binding.iv4.isVisible = false
-                            binding.iv5.isVisible = false
-                            binding.iv6.isVisible = false
-                            prevSeite = data.seite
-                            Log.i(TAG, "Previous: $prevSeite")
-
-                            if (timeDif > 5) {
-                                showDialog()
-                            }
-                        }
-                        //---Seite 2---
-                        if (data.seite == "2") {
-                            if (!bool4) {
-                                time2 = LocalDateTime.now()
-                                bool3 = false
-                                bool4 = true
-                                bool5 = false
-                                bool6 = false
-                                bool7 = false
-                                bool8 = false
-                            }
-                            val timeDif = Duration.between(time2, LocalDateTime.now()).seconds
-                            Log.i(TAG, "Dauer2: $timeDif")
-
-                            binding.iv1.isVisible = false
-                            binding.iv2.isVisible = true
-                            binding.iv3.isVisible = false
-                            binding.iv4.isVisible = false
-                            binding.iv5.isVisible = false
-                            binding.iv6.isVisible = false
-                            prevSeite = data.seite
-                            Log.i(TAG, "Previous: $prevSeite")
-
-                            if (timeDif > 5) {
-                                showDialog()
-                            }
-                        }
-                        //---Seite 3---
-                        if (data.seite == "3") {
-                            if (!bool5) {
-                                time3 = LocalDateTime.now()
-                                bool3 = false
-                                bool4 = false
-                                bool5 = true
-                                bool6 = false
-                                bool7 = false
-                                bool8 = false
-                            }
-                            val timeDif = Duration.between(time3, LocalDateTime.now()).seconds
-                            Log.i(TAG, "Dauer3: $timeDif")
-
-                            binding.iv1.isVisible = false
-                            binding.iv2.isVisible = false
-                            binding.iv3.isVisible = true
-                            binding.iv4.isVisible = false
-                            binding.iv5.isVisible = false
-                            binding.iv6.isVisible = false
-                            prevSeite = data.seite
-                            Log.i(TAG, "Previous: $prevSeite")
-
-                            if (timeDif > 5) {
-                                showDialog()
-                            }
-                        }
-                        //---Seite 4---
-                        if (data.seite == "4") {
-                            if (!bool6) {
-                                time4 = LocalDateTime.now()
-                                bool3 = false
-                                bool4 = false
-                                bool5 = false
-                                bool6 = true
-                                bool7 = false
-                                bool8 = false
-                            }
-                            val timeDif = Duration.between(time4, LocalDateTime.now()).seconds
-                            Log.i(TAG, "Dauer4: $timeDif")
-
-                            binding.iv1.isVisible = false
-                            binding.iv2.isVisible = false
-                            binding.iv3.isVisible = false
-                            binding.iv4.isVisible = true
-                            binding.iv5.isVisible = false
-                            binding.iv6.isVisible = false
-                            prevSeite = data.seite
-                            Log.i(TAG, "Previous: $prevSeite")
-
-                            if (timeDif > 5) {
-                                showDialog()
-                            }
-                        }
-                        //---Seite 5---
-                        if (data.seite == "5") {
-                            if (!bool7) {
-                                time5 = LocalDateTime.now()
-                                bool3 = false
-                                bool4 = false
-                                bool5 = false
-                                bool6 = false
-                                bool7 = true
-                                bool8 = false
-                            }
-                            val timeDif = Duration.between(time5, LocalDateTime.now()).seconds
-                            Log.i(TAG, "Dauer5: $timeDif")
-
-                            binding.iv1.isVisible = false
-                            binding.iv2.isVisible = false
-                            binding.iv3.isVisible = false
-                            binding.iv4.isVisible = false
-                            binding.iv5.isVisible = true
-                            binding.iv6.isVisible = false
-                            prevSeite = data.seite
-                            Log.i(TAG, "Previous: $prevSeite")
-
-                            if (timeDif > 5) {
-                                showDialog()
-                            }
-                        }
-                        //---Seite 6---
-                        if (data.seite == "6") {
-                            if (!bool8) {
-                                time6 = LocalDateTime.now()
-                                bool3 = false
-                                bool4 = false
-                                bool5 = false
-                                bool6 = false
-                                bool7 = false
-                                bool8 = true
-                            }
-                            val timeDif = Duration.between(time6, LocalDateTime.now()).seconds
-                            Log.i(TAG, "Dauer6: $timeDif")
-
-                            binding.iv1.isVisible = false
-                            binding.iv2.isVisible = false
-                            binding.iv3.isVisible = false
-                            binding.iv4.isVisible = false
-                            binding.iv5.isVisible = false
-                            binding.iv6.isVisible = true
-                            prevSeite = data.seite
-                            Log.i(TAG, "Previous: $prevSeite")
-
-                            if (timeDif > 5) {
-                                showDialog()
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
-        //Absturz?
-        /*viewModel.esp32Data.observe(viewLifecycleOwner) {data ->
-            val scope = MainScope()
-            scope.launch {
-                delay(5000)
-                viewModel.booleanAD.observe(viewLifecycleOwner) {bool1 ->
-                    if (!bool1) {
-                        if (data.seite == prevSeite) {
-                            Log.i(TAG, "Nochmal würfeln")
-                        } else {
-                            binding.tvData.text = "Würfelseite: ${data.seite}"
-                            if (data.seite == "1") {
-                                if (!bool3) {
-                                    time1 = LocalDateTime.now()
-                                    bool3 = true
-                                }
-                                val timeDif = Duration.between(time1, LocalDateTime.now()).seconds
-                                Log.i(TAG, "Dauer1: $timeDif")
-                                if (timeDif > 5) {
-                                    //viewModel.sendDataStop()
-                                    //viewModel.cancelDataLoadJob()
-                                    binding.iv1.isVisible = true
-                                    binding.iv2.isVisible = false
-                                    binding.iv3.isVisible = false
-                                    binding.iv4.isVisible = false
-                                    binding.iv5.isVisible = false
-                                    binding.iv6.isVisible = false
-                                    prevSeite = data.seite
-                                    Log.i(TAG, "Previous: $prevSeite")
-                                    //viewModel.switchAD()
-                                    showDialog()
-                                }
-                            }
-                            if (data.seite == "2") {
-                                if (!bool4) {
-                                    time2 = LocalDateTime.now()
-                                    bool4 = true
-                                }
-                                val timeDif = Duration.between(time2,LocalDateTime.now()).seconds
-                                Log.i(TAG, "Dauer2: $timeDif")
-                                if (timeDif > 5) {
-                                    //viewModel.sendDataStop()
-                                    //viewModel.cancelDataLoadJob()
-                                    binding.iv1.isVisible = false
-                                    binding.iv2.isVisible = true
-                                    binding.iv3.isVisible = false
-                                    binding.iv4.isVisible = false
-                                    binding.iv5.isVisible = false
-                                    binding.iv6.isVisible = false
-                                    prevSeite = data.seite
-                                    Log.i(TAG, "Previous: $prevSeite")
-                                    //viewModel.switchAD()
-                                    showDialog()
-                                }
-                            }
-                            if (data.seite == "3") {
-                                if (!bool5) {
-                                    time3 = LocalDateTime.now()
-                                    bool5 = true
-                                }
-                                val timeDif = Duration.between(time3,LocalDateTime.now()).seconds
-                                Log.i(TAG, "Dauer3: $timeDif")
-                                if (timeDif > 5) {
-                                    //viewModel.sendDataStop()
-                                    //viewModel.cancelDataLoadJob()
-                                    binding.iv1.isVisible = false
-                                    binding.iv2.isVisible = false
-                                    binding.iv3.isVisible = true
-                                    binding.iv4.isVisible = false
-                                    binding.iv5.isVisible = false
-                                    binding.iv6.isVisible = false
-                                    prevSeite = data.seite
-                                    Log.i(TAG, "Previous: $prevSeite")
-                                    //viewModel.switchAD()
-                                    showDialog()
-                                }
-                            }
-                            if (data.seite == "4") {
-                                if (!bool6) {
-                                    time4 = LocalDateTime.now()
-                                    bool6 = true
-                                }
-                                val timeDif = Duration.between(time4,LocalDateTime.now()).seconds
-                                Log.i(TAG, "Dauer4: $timeDif")
-                                if (timeDif > 5) {
-                                    //viewModel.sendDataStop()
-                                    //viewModel.cancelDataLoadJob()
-                                    binding.iv1.isVisible = false
-                                    binding.iv2.isVisible = false
-                                    binding.iv3.isVisible = false
-                                    binding.iv4.isVisible = true
-                                    binding.iv5.isVisible = false
-                                    binding.iv6.isVisible = false
-                                    prevSeite = data.seite
-                                    Log.i(TAG, "Previous: $prevSeite")
-                                    //viewModel.switchAD()
-                                    showDialog()
-                                }
-                            }
-                            if (data.seite == "5") {
-                                if (!bool7) {
-                                    time5 = LocalDateTime.now()
-                                    bool7 = true
-                                }
-                                val timeDif = Duration.between(time5,LocalDateTime.now()).seconds
-                                Log.i(TAG, "Dauer5: $timeDif")
-                                if (timeDif > 5) {
-                                    //viewModel.sendDataStop()
-                                    //viewModel.cancelDataLoadJob()
-                                    binding.iv1.isVisible = false
-                                    binding.iv2.isVisible = false
-                                    binding.iv3.isVisible = false
-                                    binding.iv4.isVisible = false
-                                    binding.iv5.isVisible = true
-                                    binding.iv6.isVisible = false
-                                    prevSeite = data.seite
-                                    Log.i(TAG, "Previous: $prevSeite")
-                                    //viewModel.switchAD()
-                                    showDialog()
-                                }
-                            }
-                            if (data.seite == "6") {
-                                if (!bool8) {
-                                    time6 = LocalDateTime.now()
-                                    bool8 = true
-                                }
-                                val timeDif = Duration.between(time6,LocalDateTime.now()).seconds
-                                Log.i(TAG, "Dauer6: $timeDif")
-                                if (timeDif > 5) {
-                                    //viewModel.sendDataStop()
-                                    //viewModel.cancelDataLoadJob()
-                                    binding.iv1.isVisible = false
-                                    binding.iv2.isVisible = false
-                                    binding.iv3.isVisible = false
-                                    binding.iv4.isVisible = false
-                                    binding.iv5.isVisible = false
-                                    binding.iv6.isVisible = true
-                                    prevSeite = data.seite
-                                    Log.i(TAG, "Previous: $prevSeite")
-                                    //viewModel.switchAD()
-                                    showDialog()
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
-        //mit delay
-        /*viewModel.esp32Data.observe(viewLifecycleOwner) {data ->
-            val scope = MainScope()
-            scope.launch {
-                delay(5000)
-                if (data.seite == prevSeite) {
-                    Log.i(TAG, "Nochmal würfeln")
-                } else {
-                    binding.tvData.text = "Würfelseite: ${data.seite}"
-                    if (data.seite == "1") {
-                        //viewModel.sendDataStop()
-                        //viewModel.cancelDataLoadJob()
-                        binding.iv1.isVisible = true
-                        binding.iv2.isVisible = false
-                        binding.iv3.isVisible = false
-                        binding.iv4.isVisible = false
-                        binding.iv5.isVisible = false
-                        binding.iv6.isVisible = false
-                        prevSeite = data.seite
-                        Log.i(TAG, "Previous: $prevSeite")
-                        showDialog()
-                        viewModel.switchAD()
-                    }
-                    if (data.seite == "2") {
-                        //viewModel.sendDataStop()
-                        //viewModel.cancelDataLoadJob()
-                        binding.iv1.isVisible = false
-                        binding.iv2.isVisible = true
-                        binding.iv3.isVisible = false
-                        binding.iv4.isVisible = false
-                        binding.iv5.isVisible = false
-                        binding.iv6.isVisible = false
-                        prevSeite = data.seite
-                        Log.i(TAG, "Previous: $prevSeite")
-                        showDialog()
-                        viewModel.switchAD()
-                    }
-                    if (data.seite == "3") {
-                        //viewModel.sendDataStop()
-                        //viewModel.cancelDataLoadJob()
-                        binding.iv1.isVisible = false
-                        binding.iv2.isVisible = false
-                        binding.iv3.isVisible = true
-                        binding.iv4.isVisible = false
-                        binding.iv5.isVisible = false
-                        binding.iv6.isVisible = false
-                        prevSeite = data.seite
-                        Log.i(TAG, "Previous: $prevSeite")
-                        showDialog()
-                        viewModel.switchAD()
-                    }
-                    if (data.seite == "4") {
-                        //viewModel.sendDataStop()
-                        //viewModel.cancelDataLoadJob()
-                        binding.iv1.isVisible = false
-                        binding.iv2.isVisible = false
-                        binding.iv3.isVisible = false
-                        binding.iv4.isVisible = true
-                        binding.iv5.isVisible = false
-                        binding.iv6.isVisible = false
-                        prevSeite = data.seite
-                        Log.i(TAG, "Previous: $prevSeite")
-                        showDialog()
-                        viewModel.switchAD()
-                    }
-                    if (data.seite == "5") {
-                        //viewModel.sendDataStop()
-                        //viewModel.cancelDataLoadJob()
-                        binding.iv1.isVisible = false
-                        binding.iv2.isVisible = false
-                        binding.iv3.isVisible = false
-                        binding.iv4.isVisible = false
-                        binding.iv5.isVisible = true
-                        binding.iv6.isVisible = false
-                        prevSeite = data.seite
-                        Log.i(TAG, "Previous: $prevSeite")
-                        showDialog()
-                        viewModel.switchAD()
-                    }
-                    if (data.seite == "6") {
-                        //viewModel.sendDataStop()
-                        //viewModel.cancelDataLoadJob()
-                        binding.iv1.isVisible = false
-                        binding.iv2.isVisible = false
-                        binding.iv3.isVisible = false
-                        binding.iv4.isVisible = false
-                        binding.iv5.isVisible = false
-                        binding.iv6.isVisible = true
-                        prevSeite = data.seite
-                        Log.i(TAG, "Previous: $prevSeite")
-                        showDialog()
-                        viewModel.switchAD()
-                    }
-                }
-            }
-        }*/
-        //nur Würfelbild ändern ohne weiteres
-        /*viewModel.esp32Data.observe(viewLifecycleOwner) { data ->
-            viewModel.booleanAD.observe(viewLifecycleOwner) { bool1 ->
-                if (!bool1) {
-                    if (data.seite == prevSeite) {
-                        Log.i(TAG, "Nochmal würfeln")
-                    } else {
-                        binding.tvData.text = "Würfelseite: ${data.seite}"
-                        if (data.seite == "1") {
-                            binding.iv1.isVisible = true
-                            binding.iv2.isVisible = false
-                            binding.iv3.isVisible = false
-                            binding.iv4.isVisible = false
-                            binding.iv5.isVisible = false
-                            binding.iv6.isVisible = false
-                            prevSeite = data.seite
-                            Log.i(TAG, "Previous: $prevSeite")
-                            //showDialog()
-                        }
-                        if (data.seite == "2") {
-                            binding.iv1.isVisible = false
-                            binding.iv2.isVisible = true
-                            binding.iv3.isVisible = false
-                            binding.iv4.isVisible = false
-                            binding.iv5.isVisible = false
-                            binding.iv6.isVisible = false
-                            prevSeite = data.seite
-                            Log.i(TAG, "Previous: $prevSeite")
-                            //showDialog()
-                        }
-                        if (data.seite == "3") {
-                            binding.iv1.isVisible = false
-                            binding.iv2.isVisible = false
-                            binding.iv3.isVisible = true
-                            binding.iv4.isVisible = false
-                            binding.iv5.isVisible = false
-                            binding.iv6.isVisible = false
-                            prevSeite = data.seite
-                            Log.i(TAG, "Previous: $prevSeite")
-                            //showDialog()
-                        }
-                        if (data.seite == "4") {
-                            binding.iv1.isVisible = false
-                            binding.iv2.isVisible = false
-                            binding.iv3.isVisible = false
-                            binding.iv4.isVisible = true
-                            binding.iv5.isVisible = false
-                            binding.iv6.isVisible = false
-                            prevSeite = data.seite
-                            Log.i(TAG, "Previous: $prevSeite")
-                            //showDialog()
-                        }
-                        if (data.seite == "5") {
-                            binding.iv1.isVisible = false
-                            binding.iv2.isVisible = false
-                            binding.iv3.isVisible = false
-                            binding.iv4.isVisible = false
-                            binding.iv5.isVisible = true
-                            binding.iv6.isVisible = false
-                            prevSeite = data.seite
-                            Log.i(TAG, "Previous: $prevSeite")
-                            //showDialog()
-                        }
-                        if (data.seite == "6") {
-                            binding.iv1.isVisible = false
-                            binding.iv2.isVisible = false
-                            binding.iv3.isVisible = false
-                            binding.iv4.isVisible = false
-                            binding.iv5.isVisible = false
-                            binding.iv6.isVisible = true
-                            prevSeite = data.seite
-                            Log.i(TAG, "Previous: $prevSeite")
-                            //showDialog()
-                        }
-                    }
-                }
-            }
-        }*/
 
         // Mittels Observer über Änderungen des connect status informieren
         viewModel.connectState.observe(viewLifecycleOwner) { state ->
@@ -996,7 +352,6 @@ class GameFragment : Fragment() {
             }
         }
     }
-
 
 
     private fun showDialog() {
@@ -1043,11 +398,9 @@ class GameFragment : Fragment() {
     }
 
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        //viewModel.sendDataStop()
         viewModel.cancelDataLoadJob()
     }
 }

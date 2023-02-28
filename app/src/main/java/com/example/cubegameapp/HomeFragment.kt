@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.cubegameapp.databinding.FragmentHomeBinding
@@ -22,6 +24,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import splitties.toast.toast
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -32,8 +35,7 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
     private val viewModel: MainViewModel by activityViewModels()
@@ -43,8 +45,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var dbList: ArrayList<String>
     private lateinit var adapter: ArrayAdapter<String>
-    //private var listDB: ArrayList<String>
 
+    private var use: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,17 +71,27 @@ class HomeFragment : Fragment() {
 
         binding.textviewFirst.text = viewModel.getDeviceSelected()
 
-        //val items = listOf("Option 1", "Option 2", "Option 3", "Option 4")
-        //val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
-        //binding.autoCompleteTextView.setAdapter(adapter)
-
         loadDbList()
+
+        binding.autoCompleteTextView.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, i, l ->
+            toast("${binding.autoCompleteTextView.text}")
+            use = binding.autoCompleteTextView.text.toString()
+            viewModel.setUseSelected(use)
+        }
 
         binding.btnMenu.setOnClickListener {
             Log.i(TAG, "Button1")
+            if (use.isEmpty()) {
+                toast("Bitte Zweck auswählen")
+            } else {
+                findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            }
+            /*val use = binding.autoCompleteTextView.setText(binding.autoCompleteTextView.adapter.getItem(0).toString())
+            toast("Zweck: $use")*/
+
             //useSelected = button1
             //viewModel.setUseSelected(useSelected)
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
 
 

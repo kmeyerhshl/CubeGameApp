@@ -1,5 +1,6 @@
 package com.example.cubegameapp
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,7 +16,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import splitties.toast.toast
+import java.io.File
 
 
 class ExerciseFragment : Fragment() {
@@ -34,12 +37,15 @@ class ExerciseFragment : Fragment() {
     var roundsVM: Int = 0
     var counterVM: Int = 0
 
-    //Variablen für Datenbank
-    private val mFirebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    private val db : FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
+    private var useSelected: String = ""
+    private var dicedSide: String = ""
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+
+    //Variablen für Datenbank
+    private val db: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
+    //private val storage: FirebaseStorage by lazy { FirebaseStorage.getInstance() }
+
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -54,6 +60,27 @@ class ExerciseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //Verwendungszweck
+        useSelected = viewModel.getUseSelected()
+        Log.i(TAG, "Verwendungszweck: $useSelected")
+        //Würfelseite
+        dicedSide = viewModel.getDicedSide()
+        Log.i(TAG,"Würfelseite: $dicedSide")
+
+
+        val storageRef = FirebaseStorage.getInstance().reference.child("$useSelected/$dicedSide.jpg")
+        val localFile = File.createTempFile("images","jpg")
+        storageRef.getFile(localFile)
+            .addOnSuccessListener {
+                val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+                binding.ivExercise.setImageBitmap(bitmap)
+            }
+            .addOnFailureListener {
+                toast("Fehler")
+            }
+
+
 
 
         //---Gewinner wählen---
@@ -106,14 +133,9 @@ class ExerciseFragment : Fragment() {
                 Log.i(TAG, "Status: $gameOver")
                 checkRound()
             } else {
-                //viewModel.switchBoolean()
                 viewModel.switchAD()
                 findNavController().navigate(R.id.action_exerciseFragment_to_gameFragment)
             }
-
-            //viewModel.sendDataPlay()
-            //viewModel.sendDataStop()
-            //showDialog()
         }
 
         binding.btnB.setOnClickListener {
@@ -156,12 +178,9 @@ class ExerciseFragment : Fragment() {
                 Log.i(TAG, "Status: $gameOver")
                 checkRound()
             } else {
-                //viewModel.switchBoolean()
                 viewModel.switchAD()
                 findNavController().navigate(R.id.action_exerciseFragment_to_gameFragment)
             }
-            //viewModel.sendDataPlay()
-            //viewModel.sendDataStop()
         }
 
         // Mittels Observer über Änderungen des connect status informieren
@@ -180,7 +199,6 @@ class ExerciseFragment : Fragment() {
     }
 
     private fun checkRound() {
-        //gameOver = true
         Log.i(TAG, "Spiel vorbei")
         viewModel.counterA.observe(viewLifecycleOwner){
                 counterA -> scoreA = counterA
@@ -224,6 +242,5 @@ class ExerciseFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        //viewModel.sendDataStop()
     }
 }

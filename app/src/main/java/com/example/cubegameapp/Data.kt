@@ -13,7 +13,7 @@ class Data {
     }
 
     override fun toString(): String {
-        return "Zweck: " + use
+        return "" + use
     }
 
 }

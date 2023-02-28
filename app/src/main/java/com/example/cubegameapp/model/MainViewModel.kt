@@ -47,17 +47,14 @@ class MainViewModel : ViewModel() {
     val deviceList: LiveData<MutableList<Device>>
         get() = _deviceList
 
-
     fun getDeviceList(): List<Device>? {
         return _deviceList.value
     }
-
 
     private var deviceSelected = "CubeGame1: 24:6F:28:1A:71:76"
     fun getDeviceSelected(): String {
         return deviceSelected
     }
-
 
     fun setDeviceSelected(devicestring: String) {
         deviceSelected = devicestring
@@ -69,7 +66,6 @@ class MainViewModel : ViewModel() {
     private val _selectedUse = MutableLiveData<String>()
     val selectedUse: LiveData<String>
         get() = _selectedUse
-
 
     fun getUseSelected(): String {
         return _selectedUse.value.toString()
@@ -93,6 +89,21 @@ class MainViewModel : ViewModel() {
     fun getRoundsSelected(): Int? {
         val rounds = _roundsSelected.value
         return rounds
+    }
+
+
+    //---Seite übertragen---
+    private var _dicedSide = MutableLiveData<String>()
+    val dicedSide: LiveData<String>
+        get() = _dicedSide
+
+    fun getDicedSide(): String {
+        return _dicedSide.value.toString()
+    }
+
+    fun setDicedSide(side: String) {
+        _dicedSide.value = side
+        Log.i(TAG,_dicedSide.value.toString())
     }
 
 
@@ -240,7 +251,6 @@ class MainViewModel : ViewModel() {
 
     // Scanning
     // ------------------------------------------------------------------------------
-
     private lateinit var scanJob: Job
 
     private val scanner = Scanner {
@@ -290,9 +300,9 @@ class MainViewModel : ViewModel() {
         scanJob.cancel()
     }
 
+
     // Connecting
     // --------------------------------------------------------------------------
-
     private lateinit var peripheral: Peripheral
     private lateinit var esp32: Esp32Ble
 
@@ -340,9 +350,7 @@ class MainViewModel : ViewModel() {
     }
 
 
-
-    // Extension Function, um Änderung in den Einträgen von Listen
-    // dem Observer anzeigen zu können
+    // Extension Function, um Änderung in den Einträgen von Listen dem Observer anzeigen zu können
     fun <T> MutableLiveData<T>.notifyObserver() {
         this.value = this.value
     }
@@ -350,13 +358,6 @@ class MainViewModel : ViewModel() {
 
     // Communication
     // ____________________________________________________________________
-
-
-    //var ledData = LedData()
-    //var pData = Play()
-    //var sData = Stop()
-    var repeatData = Repeat()
-    var round = Round()
     var gameStatus = GameStatus()
 
     private lateinit var dataLoadJob: Job
@@ -381,37 +382,6 @@ class MainViewModel : ViewModel() {
         Log.i(TAG, "CancelDataLoadjob")
     }
 
-    //Daten Spielen
-    /*fun sendDataPlay() {
-        viewModelScope.launch {
-            try {
-                esp32.sendMessage(jsonEncodePlayData(pData))
-            } catch (e:Exception) {
-                Log.i(">>>>>", "Error sending pData ${e.message}" + e.toString())
-            }
-        }
-    }*/
-
-    /*fun sendDataStop() {
-        viewModelScope.launch {
-            try {
-                esp32.sendMessage(jsonEncodeStopData(sData))
-            } catch (e:Exception) {
-                Log.i(">>>>>", "Error sending pData ${e.message}" + e.toString())
-            }
-        }
-    }*/
-
-    //Daten wiederholen
-    fun sendDataRepeat() {
-        viewModelScope.launch {
-            try {
-                esp32.sendMessage(jsonEncodeRepeat(repeatData))
-            } catch (e:Exception) {
-                Log.i(">>>>>", "Error sending pData ${e.message}" + e.toString())
-            }
-        }
-    }
 
     fun sendRoundData(selectedItem: Int) {
         viewModelScope.launch {
@@ -440,15 +410,6 @@ class MainViewModel : ViewModel() {
         return obj.toString()
     }
 
-    /*fun sendLedData() {
-        viewModelScope.launch {
-            try {
-                esp32.sendMessage(jsonEncodeLedData(ledData))
-            } catch (e: Exception) {
-                Log.i(">>>>>", "Error sending ledData ${e.message}" + e.toString())
-            }
-        }
-    }*/
 
     private fun jsonEncodeRepeat(repeat: Repeat): String {
         val obj = JSONObject()
@@ -456,17 +417,6 @@ class MainViewModel : ViewModel() {
         return obj.toString()
     }
 
-    private fun jsonEncodePlayData(pData: Play): String {
-        val obj = JSONObject()
-        obj.put("PLAY", pData.play)
-        return obj.toString()
-    }
-
-    private fun jsonEncodeStopData(sData: Stop): String {
-        val obj = JSONObject()
-        obj.put("STOP", sData.stop)
-        return obj.toString()
-    }
 
     private fun jsonEncodeRound(selectedItem: Int): String {
         val obj = JSONObject()
@@ -474,12 +424,6 @@ class MainViewModel : ViewModel() {
         return obj.toString()
     }
 
-    /*private fun jsonEncodeLedData(ledData: LedData): String {
-        val obj = JSONObject()
-        obj.put("LED", ledData.led)
-        obj.put("LEDBlinken", ledData.ledBlinken)
-        return obj.toString()
-    }*/
 
     fun jsonParseEsp32Data(jsonString: String): Esp32Data {
         try {
@@ -487,8 +431,6 @@ class MainViewModel : ViewModel() {
             return Esp32Data(
                 playStatus = obj.getString("playStatus"),
                 seite = obj.getString("seite"),
-                //ledstatus = obj.getString("ledstatus"),
-                //potiArray = obj.getJSONArray("potiArray")
             )
         } catch (e: Exception) {
             Log.i(">>>>", "Error decoding JSON ${e.message}")
