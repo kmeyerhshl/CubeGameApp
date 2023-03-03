@@ -39,6 +39,10 @@ class PlayerFragment : Fragment() {
     private lateinit var playerList: ArrayList<String>
     private lateinit var adapter: ArrayAdapter<String>
 
+    var bool1: Boolean = false
+    var bool2: Boolean = false
+    var bool3: Boolean = false
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -101,16 +105,63 @@ class PlayerFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
 
+
+
         binding.btnTeams.setOnClickListener {
             for (i in 0 until binding.lvPlayer.count) {
+                if (!bool3) {
+                    Log.i(TAG,"BOOL3 IS FALSE")
+                    bool1 = false
+                } else {
+                    bool2 = true
+                    Log.i(TAG,"BOOL3 IS TRUE")
+                }
                 if (binding.lvPlayer.isItemChecked(i)) {
                     val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
                     viewModel.emptySelectedPlayers(playerName)
+                    viewModel.selectPlayer(playerName)
+                    if (!bool1) {
+                        viewModel.selectPlayerA(playerName)
+                        bool1 = true
+                        Log.i(TAG,"BOOL1 IS FALSE")
+                    }
+                    if (bool2) {
+                        viewModel.selectPlayerB(playerName)
+                        bool2 = false
+                        Log.i(TAG,"BOOL2 IS TRUE")
+                    }
+                    /*if (!bool1 && bool2) {
+                        viewModel.selectPlayerA(playerName)
+                        bool1 = true
+                    }
+                    if (bool1 && !bool2) {
+                        viewModel.selectPlayerB(playerName)
+                        bool1 = false
+                    }*/
+                    bool3 = !bool3
                 }
             }
             adapter.notifyDataSetChanged()
 
-            for (i in 0 until binding.lvPlayer.count/2) {
+
+
+            Log.i(TAG,"checked: ${binding.lvPlayer.checkedItemCount}")
+
+            //bei 3 werden nur 2 zuzgeordnet
+            /*for (i in 0 until binding.lvPlayer.checkedItemCount/2) {
+                if (binding.lvPlayer.isItemChecked(i)) {
+                    val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
+                    viewModel.selectPlayerA(playerName)
+                }
+            }
+            for (i in binding.lvPlayer.checkedItemCount/2 until binding.lvPlayer.checkedItemCount) {
+                if (binding.lvPlayer.isItemChecked(i)) {
+                    val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
+                    viewModel.selectPlayerB(playerName)
+                }
+            }*/
+            //Größe des gesamten LV wird geteilt
+            /*for (i in 0 until binding.lvPlayer.count/2) {
                 if (binding.lvPlayer.isItemChecked(i)) {
                     val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
                     viewModel.selectPlayerA(playerName)
@@ -121,7 +172,9 @@ class PlayerFragment : Fragment() {
                     val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
                     viewModel.selectPlayerB(playerName)
                 }
-            }
+            }*/
+
+
             if (viewModel.selectedPlayerListA.value?.isEmpty() == true || viewModel.selectedPlayerListB.value?.isEmpty() == true) {
                 Log.i(TAG, "Liste ist leer")
                 toast("Bitte Spieler auswählen")

@@ -188,6 +188,14 @@ class MainViewModel : ViewModel() {
 
 
     //---Liste ausgewählte Spieler---
+    private val _selectedPlayer = MutableLiveData<MutableList<String>>()
+    val selectedPlayer: LiveData<MutableList<String>>
+        get() = _selectedPlayer
+
+    fun getSelectedPlayer(): List<String>? {
+        return _selectedPlayer.value
+    }
+
     private val _selectedPlayerListA = MutableLiveData<MutableList<String>>()
     val selectedPlayerListA: LiveData<MutableList<String>>
         get() = _selectedPlayerListA
@@ -212,6 +220,7 @@ class MainViewModel : ViewModel() {
         _counterA.value = 0
         _counterB.value = 0
         _playerList.value = mutableListOf()
+        _selectedPlayer.value = mutableListOf()
         _selectedPlayerListA.value = mutableListOf()
         _selectedPlayerListB.value = mutableListOf()
     }
@@ -231,11 +240,18 @@ class MainViewModel : ViewModel() {
     }
 
     fun emptySelectedPlayers(player: String) {
+        _selectedPlayer.value?.removeAll() {it.equals(player)}
         _selectedPlayerListA.value?.removeAll() {it.equals(player)}
         _selectedPlayerListB.value?.removeAll() {it.equals(player)}
         _selectedPlayerListA.notifyObserver()
         _selectedPlayerListB.notifyObserver()
         Log.i("MVM Empty","done")
+    }
+
+    fun selectPlayer(player:String) {
+        _selectedPlayer.value?.add(player)
+        _selectedPlayer.notifyObserver()
+        Log.i("MVM Selected Player", _selectedPlayer.value.toString())
     }
 
     fun selectPlayerA(player: String) {
