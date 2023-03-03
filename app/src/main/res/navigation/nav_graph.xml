@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/FirstFragment"
         android:name="com.example.cubegameapp.HomeFragment"
-        android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_home">
 
         <action
@@ -18,7 +17,6 @@
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.example.cubegameapp.PlayerFragment"
-        android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_player">
 
         <action
@@ -31,7 +29,6 @@
     <fragment
         android:id="@+id/gameFragment"
         android:name="com.example.cubegameapp.GameFragment"
-        android:label="fragment_game"
         tools:layout="@layout/fragment_game" >
         <action
             android:id="@+id/action_gameFragment_to_SecondFragment"
@@ -46,7 +43,6 @@
     <fragment
         android:id="@+id/exerciseFragment"
         android:name="com.example.cubegameapp.ExerciseFragment"
-        android:label="fragment_exercise"
         tools:layout="@layout/fragment_exercise" >
         <action
             android:id="@+id/action_exerciseFragment_to_FirstFragment"

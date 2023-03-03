@@ -209,6 +209,8 @@ class MainViewModel : ViewModel() {
         _deviceList.value = mutableListOf()
         _selectedUse.value = ""
         _btnCounter.value = 1
+        _counterA.value = 0
+        _counterB.value = 0
         _playerList.value = mutableListOf()
         _selectedPlayerListA.value = mutableListOf()
         _selectedPlayerListB.value = mutableListOf()

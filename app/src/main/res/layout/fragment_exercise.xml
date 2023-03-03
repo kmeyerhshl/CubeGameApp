@@ -8,6 +8,7 @@
 
     <Button
         android:id="@+id/btnA"
+        style="@style/Button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -20,10 +21,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnB"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivExercise" />
+        app:layout_constraintTop_toBottomOf="@+id/ivExercise"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/btnB"
+        style="@style/Button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="9dp"
@@ -36,19 +39,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnA"
-        app:layout_constraintTop_toBottomOf="@+id/ivExercise" />
+        app:layout_constraintTop_toBottomOf="@+id/ivExercise"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/tvTitle"
+        style="@style/TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="32dp"
         android:text="@string/tvTitle"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,10 +57,44 @@
         android:id="@+id/ivExercise"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="112dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+    <TextView
+        android:id="@+id/tvVS"
+        style="@style/TextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:text="@string/tvVS"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteX="193dp" />
+
+    <TextView
+        android:id="@+id/tvNameA"
+        style="@style/TextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="32dp"
+        android:hint="Name A"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+    <TextView
+        android:id="@+id/tvNameB"
+        style="@style/TextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="56dp"
+        android:hint="Name B"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

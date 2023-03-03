@@ -1,14 +1,10 @@
 <resources>
     <string name="app_name">CubeGameApp</string>
-    <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="home_fragment">Home</string>
+    <string name="player_fragment">Spieler</string>
+    <string name="game_fragment">Spiel</string>
+    <string name="exercise_fragment">Übung</string>
 
 
     <string name="request_wifi_enable">WLAN aktivieren?</string>
@@ -22,14 +18,13 @@
     <string name="ble_not_supported">BT nicht unterstützt</string>
     <string name="connected">Verbunden</string>
     <string name="disconnected">Getrennt</string>
-    <string name="connecting">Verbinden...</string>
+    <string name="connecting">Verbinden…</string>
     <string name="no_selected_device">kein Gerät ausgewählt</string>
 
-    <string name="option1">Sport</string>
-    <string name="option2">Freunde</string>
-    <string name="option3">Büro</string>
+    <string name="btnNext">Spiel starten</string>
+    <string name="tvDice">DICE GAME</string>
     <string name="fabAnleitung">Anleitung</string>
-    <string name="anleitung">Anleitung...</string>
+    <string name="anleitung">Anleitung…</string>
     <string name="dialog_cancel">OK</string>
     <string name="menuUse">Wählen Sie einen Verwendungszweck</string>
 
@@ -38,7 +33,7 @@
     <string name="tvPlayer">Wählen Sie Spieler aus!</string>
     <string name="dialogAdd">Spieler hinzufügen</string>
     <string name="dialog_cancel2">Abbruch</string>
-    <string name="dialog_ok">Ok</string>
+    <string name="dialog_ok">OK</string>
     <string name="dialogDelete">Spieler löschen?</string>
     <string name="btnMix">Teams bilden</string>
     <string name="adTitle">Teams</string>
@@ -52,6 +47,7 @@
     <string name="rounds">Runde: </string>
     <string name="teamA">Team A</string>
     <string name="teamB">Team B</string>
+    <string name="tvPoints">Punkte:</string>
     <string name="btnDice">Würfeln</string>
     <string name="scoreA">Spielstand Team A: %s Punkte</string>
     <string name="scoreB">Spielstand Team B: %s Punkte</string>
@@ -63,5 +59,6 @@
 
     //Exercise Fragment
     <string name="tvTitle">Wer war schneller?</string>
+    <string name="tvVS">vs.</string>
 
 </resources>

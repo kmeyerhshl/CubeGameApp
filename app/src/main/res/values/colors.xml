@@ -11,4 +11,12 @@
     <color name="red">#FFFF0000</color>
     <color name="blue">#FF00A6FF</color>
 
+    <color name="blue2">#0d47a1</color>
+    <color name="blue_light">#5472d3</color>
+    <color name="blue_dark">#002171</color>
+
+    <color name="blue3">#1e88e5</color>
+    <color name="blue_light2">#6ab7ff</color>
+    <color name="blue_dark2">#005cb2</color>
+
 </resources>

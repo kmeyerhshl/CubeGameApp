@@ -40,6 +40,8 @@ class ExerciseFragment : Fragment() {
     private var useSelected: String = ""
     private var dicedSide: String = ""
 
+    private var newA: String = ""
+    private var newB: String = ""
 
     //Variablen für Datenbank
     private val db: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
@@ -81,6 +83,17 @@ class ExerciseFragment : Fragment() {
             }
 
 
+        //---Name Team A---
+        val listA = viewModel.selectedPlayerListA
+        binding.tvNameA.text = listA.value?.random().toString()
+        //newA = listA.value?.random().toString()
+        //binding.tvNameA.text = getString(R.string.tvNameA).format(newA)
+
+        //---Name Team B---
+        val listB = viewModel.selectedPlayerListB
+        binding.tvNameB.text = listB.value?.random().toString()
+        //newB = listB.value?.random().toString()
+        //binding.tvNameB.text = getString(R.string.tvNameB).format(newB)
 
 
         //---Gewinner wählen---
@@ -229,15 +242,6 @@ class ExerciseFragment : Fragment() {
             .show()
     }
 
-    private fun getExercise() {
-        db.collection("Sport").document("1")
-            .addSnapshotListener(EventListener { value, e ->
-                if (e != null) {
-                    return@EventListener
-                }
-                //updateListOnChange(value!!)
-            })
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

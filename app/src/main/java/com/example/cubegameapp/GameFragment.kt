@@ -62,12 +62,10 @@ class GameFragment : Fragment() {
     var bool8: Boolean = false
     private lateinit var time6 : LocalDateTime
 
-
-    private var newA: String = ""
-    private var newB: String = ""
     private var prevSeite: String = ""
 
-
+    private var scoreA1: Int = 0
+    private var scoreB1: Int = 0
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -153,14 +151,17 @@ class GameFragment : Fragment() {
             }
         }
 
+        //---Spielstand Team A---
+        viewModel.counterA.observe(viewLifecycleOwner) {counterA ->
+            binding.tvScoreA.text = counterA.toString()
+        }
 
-        //---Name Team A---
-        val listA = viewModel.selectedPlayerListA
-        binding.tvNameA.text = listA.value?.random().toString()
+        //---Spielstand Team B---
+        viewModel.counterB.observe(viewLifecycleOwner) {counterB ->
+            binding.tvScoreB.text = counterB.toString()
+        }
 
-        //---Name Team B---
-        val listB = viewModel.selectedPlayerListB
-        binding.tvNameB.text = listB.value?.random().toString()
+
 
 
         //---empfangene Daten---
