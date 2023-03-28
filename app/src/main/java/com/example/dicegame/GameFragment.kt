@@ -1,6 +1,5 @@
-package com.example.cubegameapp
+package com.example.dicegame
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,13 +9,10 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.cubegameapp.databinding.FragmentGameBinding
-import com.example.cubegameapp.model.ConnectState
-import com.example.cubegameapp.model.MainViewModel
+import com.example.dicegame.databinding.FragmentGameBinding
+import com.example.dicegame.model.ConnectState
+import com.example.dicegame.model.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package com.example.cubegameapp.esp32ble
+package com.example.dicegame.esp32ble
 
 import android.util.Log
 import com.juul.kable.Peripheral

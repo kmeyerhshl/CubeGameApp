@@ -1,4 +1,4 @@
-package com.example.cubegameapp
+package com.example.dicegame
 
 import android.os.Bundle
 import android.util.Log
@@ -8,16 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.cubegameapp.databinding.FragmentHomeBinding
-import com.example.cubegameapp.model.ConnectState
-import com.example.cubegameapp.model.MainViewModel
-import com.google.android.gms.tasks.Task
+import com.example.dicegame.databinding.FragmentHomeBinding
+import com.example.dicegame.model.ConnectState
+import com.example.dicegame.model.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -41,7 +38,7 @@ class HomeFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
 
     private val mFirebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    private val db : FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
+    private val db: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
     private lateinit var dbList: ArrayList<String>
     private lateinit var adapter: ArrayAdapter<String>
@@ -65,7 +62,6 @@ class HomeFragment : Fragment() {
         val scope = MainScope()
         scope.launch {
             delay(1000)
-            Log.i("ButtonFirst", "[btnStart] isReceivingData - true")
             viewModel.connect()
         }
 
@@ -79,19 +75,13 @@ class HomeFragment : Fragment() {
             viewModel.setUseSelected(use)
         }
 
-        binding.btnMenu.setOnClickListener {
-            Log.i(TAG, "Button1")
+        binding.btnStart.setOnClickListener {
+            Log.i(TAG, "Button Start")
             if (use.isEmpty()) {
                 toast("Bitte Zweck auswählen")
             } else {
                 findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
             }
-            /*val use = binding.autoCompleteTextView.setText(binding.autoCompleteTextView.adapter.getItem(0).toString())
-            toast("Zweck: $use")*/
-
-            //useSelected = button1
-            //viewModel.setUseSelected(useSelected)
-            //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
 
 
@@ -120,58 +110,39 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadDbList() {
-        /*val documentID = listDB.toString()
-        db.collection("Verwendungszweck").document(documentID)
-            .get()
-            .addOnCompleteListener {task ->
-                if (task.isSuccessful) {
-                    dbList = ArrayList()
-                    val highscore = task.result!!.toObject(Data::class.java)
-                    dbList.add(highscore.toString())
+        /*val storage = Firebase.storage
+        val listRef = storage.reference.child("Kinder")
+        listRef.listAll()
+            .addOnSuccessListener { (items, prefixes) ->
+                prefixes.forEach { prefix ->
+                    // All the prefixes under listRef.
+                    // You may call listAll() recursively on them.
+                }
 
+                items.forEach { item ->
+                    dbList = ArrayList()
+                    dbList.add(item.toString())
                     adapter = ArrayAdapter(requireContext(), R.layout.list_item, dbList)
                     binding.autoCompleteTextView.setAdapter(adapter)
-                } else {
-                    Log.d(TAG, "FEHLER: Daten lesen ", task.exception)
                 }
+            }
+            .addOnFailureListener {
+                // Uh-oh, an error occurred!
             }*/
-        val uid = mFirebaseAuth.currentUser!!.uid
+
+        //val storageRef = FirebaseStorage.getInstance().reference.child("$useSelected/$dicedSide.jpg")
+        //Liste aus Datenbank
         db.collection("Verwendungszweck")
-            //.orderBy(Constants.USERSCORE, Query.Direction.DESCENDING)
-            //.limit(Constants.HIGHSCORELIMIT.toLong())
             .addSnapshotListener(EventListener { value, e ->
                 if (e != null) {
                     return@EventListener
                 }
                 updateListOnChange(value!!)
             })
-        
-        // Einstiegspunkt für die Abfrage ist users/uid/Messungen
-        //val uid = mFirebaseAuth.currentUser!!.uid
-        /*db.collection("Verwendungszweck").document()
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    updateListView(task)
-                } else {
-                    Log.d(TAG, "FEHLER: Daten lesen ", task.exception)
-                }
-            }*/
-        /*db.collection("Verwendungszweck") // alle Einträge abrufen
-            //.get()
-            .addSnapshotListener(EventListener { task, e ->
-                if (e != null) {
-                    return@EventListener
-                }
-                updateListView(task!!)
-                /*if (task.isSuccessful) {
-                    updateListView(task!!)
-                } else {
-                    Log.d(TAG, "FEHLER: Daten lesen ", task.exception)
-                }*/
-            })*/
+
     }
 
+    //Liste aus Datenbank
     private fun updateListOnChange(value: QuerySnapshot) {
         dbList = ArrayList()
         for (documentSnapshot in value) {
@@ -182,45 +153,6 @@ class HomeFragment : Fragment() {
         binding.autoCompleteTextView.setAdapter(adapter)
     }
 
-    /*private fun updateListView(task: Task<QuerySnapshot>){
-        Log.i(TAG, "updateListView")
-        // Einträge in dbList kopieren, um sie im ListView anzuzeigen
-        dbList = ArrayList()
-        // Diese for schleife durchläuft alle Documents der Abfrage
-        for (document in task.result!!) {
-            val messung = document.toObject(Data::class.java)
-            Log.i(TAG, "Messung: $messung")
-            //val id = document.id
-            //messung.setId(id)
-            (dbList as ArrayList<Data>).add(messung)
-            Log.d(TAG, document.id + " => " + document.data)
-        }
-        // jetzt liegt die vollständige Liste vor und
-        // kann im ListView angezeigt werden
-        adapter = ArrayAdapter(requireContext(), R.layout.list_item, dbList)
-        //listView.adapter = adapter
-        binding.autoCompleteTextView.setAdapter(adapter)
-    }*/
-
-    /*private fun updateListView(task: QuerySnapshot) {
-        Log.i(TAG, "updateListView")
-        // Einträge in dbList kopieren, um sie im ListView anzuzeigen
-        dbList = ArrayList()
-        // Diese for schleife durchläuft alle Documents der Abfrage
-        for (document in task) {
-            val messung = document.toObject(Data::class.java)
-            Log.i(TAG, "Messung: $messung")
-            //val id = document.id
-            //messung.setId(id)
-            (dbList as ArrayList<Data>).add(messung)
-            Log.d(TAG, document.id + " => " + document.data)
-        }
-        // jetzt liegt die vollständige Liste vor und
-        // kann im ListView angezeigt werden
-        adapter = ArrayAdapter(requireContext(), R.layout.list_item, dbList)
-        //listView.adapter = adapter
-        binding.autoCompleteTextView.setAdapter(adapter)
-    }*/
 
     private fun showDialog() {
         context?.let {

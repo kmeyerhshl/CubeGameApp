@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "595406458497",
-    "project_id": "cubegameapp",
-    "storage_bucket": "cubegameapp.appspot.com"
+    "project_number": "1062683809189",
+    "project_id": "dicegame-413cc",
+    "storage_bucket": "dicegame-413cc.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:595406458497:android:caf7205c68cf57ec338780",
+        "mobilesdk_app_id": "1:1062683809189:android:f879e4e13a59511f9c444c",
         "android_client_info": {
-          "package_name": "com.example.cubegameapp"
+          "package_name": "com.example.dicegame"
         }
       },
       "oauth_client": [
         {
-          "client_id": "595406458497-p222nl0tfs0isrs5p0nebbjtbq2ed5nd.apps.googleusercontent.com",
+          "client_id": "1062683809189-d1omgvjeh8ugusa1hl390kvhe9n777os.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA7TJPVpDinhssj-Mms3ZQu5XJ8FqiOZRI"
+          "current_key": "AIzaSyA3aYhkpe8BS9vOeyVB8pA7yQOJpLBuFb8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "595406458497-p222nl0tfs0isrs5p0nebbjtbq2ed5nd.apps.googleusercontent.com",
+              "client_id": "1062683809189-d1omgvjeh8ugusa1hl390kvhe9n777os.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

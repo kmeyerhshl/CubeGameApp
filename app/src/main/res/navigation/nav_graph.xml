@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.cubegameapp.HomeFragment"
+        android:name="com.example.dicegame.HomeFragment"
         tools:layout="@layout/fragment_home">
 
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.cubegameapp.PlayerFragment"
+        android:name="com.example.dicegame.PlayerFragment"
         tools:layout="@layout/fragment_player">
 
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
-        android:name="com.example.cubegameapp.GameFragment"
+        android:name="com.example.dicegame.GameFragment"
         tools:layout="@layout/fragment_game" >
         <action
             android:id="@+id/action_gameFragment_to_SecondFragment"
@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/exerciseFragment"
-        android:name="com.example.cubegameapp.ExerciseFragment"
+        android:name="com.example.dicegame.ExerciseFragment"
         tools:layout="@layout/fragment_exercise" >
         <action
             android:id="@+id/action_exerciseFragment_to_FirstFragment"

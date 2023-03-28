@@ -34,7 +34,7 @@ android {
     compileSdk = 32
 
     defaultConfig {
-        applicationId = "com.example.cubegameapp"
+        applicationId = "com.example.dicegame"
         minSdk = 26
         targetSdk = 32
         versionCode = 1

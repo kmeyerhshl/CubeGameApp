@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CubeGameApp</string>
+    <string name="app_name">DiceGame</string>
     <!-- Strings used for fragments for navigation -->
     <string name="home_fragment">Home</string>
     <string name="player_fragment">Spieler</string>

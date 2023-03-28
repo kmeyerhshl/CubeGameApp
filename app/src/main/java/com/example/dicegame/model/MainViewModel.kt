@@ -1,4 +1,4 @@
-package com.example.cubegameapp.model
+package com.example.dicegame.model
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.benasher44.uuid.uuidFrom
-import com.example.cubegameapp.esp32ble.*
+import com.example.dicegame.esp32ble.*
 import com.juul.kable.Filter
 import com.juul.kable.Peripheral
 import com.juul.kable.Scanner

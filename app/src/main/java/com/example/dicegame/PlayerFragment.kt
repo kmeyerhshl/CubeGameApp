@@ -1,10 +1,7 @@
-package com.example.cubegameapp
+package com.example.dicegame
 
-import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
 import android.util.Log
-import android.util.SparseBooleanArray
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,9 +12,9 @@ import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.cubegameapp.databinding.FragmentPlayerBinding
-import com.example.cubegameapp.model.ConnectState
-import com.example.cubegameapp.model.MainViewModel
+import com.example.dicegame.databinding.FragmentPlayerBinding
+import com.example.dicegame.model.ConnectState
+import com.example.dicegame.model.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import splitties.toast.toast

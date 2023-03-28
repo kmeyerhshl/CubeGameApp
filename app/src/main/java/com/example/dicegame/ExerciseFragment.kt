@@ -1,4 +1,4 @@
-package com.example.cubegameapp
+package com.example.dicegame
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -9,12 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.cubegameapp.databinding.FragmentExerciseBinding
-import com.example.cubegameapp.model.ConnectState
-import com.example.cubegameapp.model.MainViewModel
+import com.example.dicegame.databinding.FragmentExerciseBinding
+import com.example.dicegame.model.ConnectState
+import com.example.dicegame.model.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import splitties.toast.toast
@@ -54,10 +52,8 @@ class ExerciseFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentExerciseBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -86,14 +82,12 @@ class ExerciseFragment : Fragment() {
         //---Name Team A---
         val listA = viewModel.selectedPlayerListA
         binding.tvNameA.text = listA.value?.random().toString()
-        //newA = listA.value?.random().toString()
-        //binding.tvNameA.text = getString(R.string.tvNameA).format(newA)
+
 
         //---Name Team B---
         val listB = viewModel.selectedPlayerListB
         binding.tvNameB.text = listB.value?.random().toString()
-        //newB = listB.value?.random().toString()
-        //binding.tvNameB.text = getString(R.string.tvNameB).format(newB)
+
 
 
         //---Gewinner wählen---

@@ -1,4 +1,4 @@
-package com.example.cubegameapp
+package com.example.dicegame
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -11,19 +11,15 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.PermissionChecker
-import com.example.cubegameapp.databinding.ActivityMainBinding
-import com.example.cubegameapp.model.MainViewModel
+import com.example.dicegame.databinding.ActivityMainBinding
+import com.example.dicegame.model.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth

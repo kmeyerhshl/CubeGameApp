@@ -1,4 +1,4 @@
-package com.example.cubegameapp
+package com.example.dicegame
 
 class Data {
 

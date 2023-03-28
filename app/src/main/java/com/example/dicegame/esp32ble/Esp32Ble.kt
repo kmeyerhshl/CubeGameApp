@@ -1,4 +1,4 @@
-package com.example.cubegameapp.esp32ble
+package com.example.dicegame.esp32ble
 
 
 data class GameStatus(var gameStatus: String = "")
