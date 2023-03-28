@@ -48,10 +48,8 @@ class PlayerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentPlayerBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,6 +65,11 @@ class PlayerFragment : Fragment() {
         binding.lvPlayer.adapter = adapter
         viewModel.playerList.observe(viewLifecycleOwner) { adapter.notifyDataSetChanged() }
 
+        //Liste der ausgewählten Spieler leeren
+        for (i in 0 until binding.lvPlayer.count) {
+            val player: String = binding.lvPlayer.getItemAtPosition(i) as String
+            viewModel.emptySelectedPlayers(player)
+        }
 
         //Spieler hinzufügen
         binding.fabAdd.setOnClickListener {
@@ -104,6 +107,8 @@ class PlayerFragment : Fragment() {
 
 
 
+
+        //ausgewählte Spieler abwechselnd zu Team A und Team B zuordnen
         binding.btnTeams.setOnClickListener {
             for (i in 0 until binding.lvPlayer.count) {
                 if (!bool3) {
@@ -127,14 +132,6 @@ class PlayerFragment : Fragment() {
                         bool2 = false
                         Log.i(TAG,"BOOL2 IS TRUE")
                     }
-                    /*if (!bool1 && bool2) {
-                        viewModel.selectPlayerA(playerName)
-                        bool1 = true
-                    }
-                    if (bool1 && !bool2) {
-                        viewModel.selectPlayerB(playerName)
-                        bool1 = false
-                    }*/
                     bool3 = !bool3
                 }
             }
@@ -144,32 +141,7 @@ class PlayerFragment : Fragment() {
 
             Log.i(TAG,"checked: ${binding.lvPlayer.checkedItemCount}")
 
-            //bei 3 werden nur 2 zuzgeordnet
-            /*for (i in 0 until binding.lvPlayer.checkedItemCount/2) {
-                if (binding.lvPlayer.isItemChecked(i)) {
-                    val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
-                    viewModel.selectPlayerA(playerName)
-                }
-            }
-            for (i in binding.lvPlayer.checkedItemCount/2 until binding.lvPlayer.checkedItemCount) {
-                if (binding.lvPlayer.isItemChecked(i)) {
-                    val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
-                    viewModel.selectPlayerB(playerName)
-                }
-            }*/
-            //Größe des gesamten LV wird geteilt
-            /*for (i in 0 until binding.lvPlayer.count/2) {
-                if (binding.lvPlayer.isItemChecked(i)) {
-                    val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
-                    viewModel.selectPlayerA(playerName)
-                }
-            }
-            for (i in binding.lvPlayer.count/2 until binding.lvPlayer.count) {
-                if (binding.lvPlayer.isItemChecked(i)) {
-                    val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
-                    viewModel.selectPlayerB(playerName)
-                }
-            }*/
+
 
 
             if (viewModel.selectedPlayerListA.value?.isEmpty() == true || viewModel.selectedPlayerListB.value?.isEmpty() == true) {
@@ -178,24 +150,6 @@ class PlayerFragment : Fragment() {
             } else {
                 showDialogTeams()
             }
-            /*var itemSelected = "Selected items: \n"
-            for (i in 0 until binding.lvPlayer.count) {
-                if (binding.lvPlayer.isItemChecked(i)) {
-                    itemSelected += binding.lvPlayer.getItemAtPosition(i)
-                    val playerName = binding.lvPlayer.getItemAtPosition(i)
-                    viewModel.addPlayer(playerName as String)
-                }
-            }
-            toast(itemSelected)*/
-            /*val position: SparseBooleanArray = binding.lvPlayer.checkedItemPositions
-            val count = binding.lvPlayer.count
-            var item = count - 1
-            while (item>=0) {
-                if (position.get(item)) {
-
-                }
-            }*/
-            //findNavController().navigate(R.id.action_SecondFragment_to_gameFragment)
         }
 
         // Mittels Observer über Änderungen des connect status informieren

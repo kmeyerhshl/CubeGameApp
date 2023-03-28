@@ -97,35 +97,8 @@ class ExerciseFragment : Fragment() {
             Log.i(TAG, "Runde: $viewModel.btnCounter")
             viewModel.counterA.observe(viewLifecycleOwner) {counterA ->
                 scoreA1 = counterA
-                toast(getString(R.string.scoreA).format(scoreA1))
+                //toast(getString(R.string.scoreA).format(scoreA1))
             }
-            /*val previousA = binding.tvNameA.text
-            newA = listA.value?.random().toString()
-            Log.i(TAG, "Button A previous A: $previousA")
-            Log.i(TAG, "Button A new A: $newA")
-            val previousB = binding.tvNameB.text
-            newB = listB.value?.random().toString()
-            Log.i(TAG, "Button A previous B: $previousB")
-            Log.i(TAG, "Button A new B: $newB")
-            if (previousA == newA || previousB == newB) {
-                newA = listA.value?.random().toString()
-                binding.tvNameA.text = newA
-                binding.tvNameA.invalidate()
-                newB = listB.value?.random().toString()
-                binding.tvNameB.text = newB
-            }*/
-            /*val previousA = binding.tvNameA.text
-            var newA = listA.value?.random().toString()
-            if (previousA == newA) {
-                newA = listA.value?.random().toString()
-                binding.tvNameA.text = newA
-            }
-            val previousB = binding.tvNameB.text
-            var newB = listB.value?.random().toString()
-            if (previousB == newB) {
-                newB = listB.value?.random().toString()
-                binding.tvNameB.text = newB
-            }*/
             viewModel.btnCounter.observe(viewLifecycleOwner) {counter ->
                 counterVM = counter
                 Log.i(TAG,"Counter: $counterVM")
@@ -141,6 +114,7 @@ class ExerciseFragment : Fragment() {
                 checkRound()
             } else {
                 viewModel.switchAD()
+                toast(getString(R.string.scoreA).format(scoreA1))
                 findNavController().navigate(R.id.action_exerciseFragment_to_gameFragment)
             }
         }
@@ -151,26 +125,8 @@ class ExerciseFragment : Fragment() {
             Log.i(TAG, "Runde: $viewModel.btnCounter")
             viewModel.counterB.observe(viewLifecycleOwner) {counterB ->
                 scoreB1 = counterB
-                toast(getString(R.string.scoreB).format(scoreB1))
+                //toast(getString(R.string.scoreB).format(scoreB1))
             }
-            /*val previousA = binding.tvNameA.text
-            newA = listA.value?.random().toString()
-            Log.i(TAG, "Button B previous A: $previousA")
-            Log.i(TAG, "Button B new A: $newA")
-            val previousB = binding.tvNameB.text
-            newB = listB.value?.random().toString()
-            Log.i(TAG, "Button B previous B: $previousB")
-            Log.i(TAG, "Button B new B: $newB")
-            if (previousA == newA && previousB == newB) {
-                newA = listA.value?.random().toString()
-                binding.tvNameA.text = newA
-                newB = listB.value?.random().toString()
-                binding.tvNameB.text = newB
-            }*/
-            /*if (previousB == newB) {
-                newB = listB.value?.random().toString()
-                binding.tvNameB.text = newB
-            }*/
             viewModel.btnCounter.observe(viewLifecycleOwner) {counter ->
                 counterVM = counter
                 Log.i(TAG,"Counter: $counterVM")
@@ -186,6 +142,7 @@ class ExerciseFragment : Fragment() {
                 checkRound()
             } else {
                 viewModel.switchAD()
+                toast(getString(R.string.scoreB).format(scoreB1))
                 findNavController().navigate(R.id.action_exerciseFragment_to_gameFragment)
             }
         }
@@ -222,7 +179,6 @@ class ExerciseFragment : Fragment() {
             .setTitle(resources.getString(R.string.dialogEnd))
             .setMessage(winner)
             .setPositiveButton(resources.getString(R.string.dialogEnter)) { dialog, which ->
-                //viewModel.sendDataStop()
                 viewModel.gameStatus.gameStatus = "F"
                 viewModel.sendGameStatus()
                 viewModel.cancelDataLoadJob()

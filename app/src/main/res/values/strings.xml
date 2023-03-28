@@ -20,11 +20,22 @@
     <string name="disconnected">Getrennt</string>
     <string name="connecting">Verbinden…</string>
     <string name="no_selected_device">kein Gerät ausgewählt</string>
-
+    <string name="btnConnect">Verbinden</string>
     <string name="btnNext">Spiel starten</string>
     <string name="tvDice">DICE GAME</string>
-    <string name="fabAnleitung">Anleitung</string>
-    <string name="anleitung">Anleitung…</string>
+    <string name="fabAnleitung">Willkommen im DiceGame!</string>
+    <string name="anleitung">
+        <li><b>1.</b> Stecke das Embedded System mit dem Akku in den Würfel und verschließe ihn.</li>\n
+        <li><b>2.</b> Warte, bis eine Bluetooth Verbindung hergestellt wurde.</li>\n
+        <li><b>3.</b> Wähle aus, für welchen Zweck du das Spiel verwenden möchtest.</li>\n
+        <li><b>4.</b> Drücke auf "Spiel starten".</li>\n
+        <li><b>5.</b> Wähle mehrere Spieler aus und drücke auf den "Teams"-Button.</li>\n
+        <li><b>6.</b> Wähle eine Rundenanzahl aus.</li>\n
+        <li><b>7.</b> Würfel den Würfel und lass ihn kurz liegen.</li>\n
+        <li><b>8.</b> Über den "Bestätigen"-Button wird die Zahl bestätigt. Über den "Wiederholen"-Butten kann erneut gewürfelt werden.</li>\n
+        <li><b>9.</b> Die auf dem Bildschirm zu sehenden Spieler müssen möglichst schnell die angezeigte Aufgabe meistern. Das Gewinnerteam kann über den jeweiligen Button ausgewählt werden.</li>\n
+        <li><b>10.</b> Gewinner ist das Team mit den meisten Punkten am Ende.</li>
+        \n Viel Spaß!</string>
     <string name="dialog_cancel">OK</string>
     <string name="menuUse">Wählen Sie einen Verwendungszweck</string>
 

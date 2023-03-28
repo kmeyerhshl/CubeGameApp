@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dicegame.databinding.FragmentHomeBinding
@@ -37,7 +38,6 @@ class HomeFragment : Fragment() {
 
     private val viewModel: MainViewModel by activityViewModels()
 
-    private val mFirebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val db: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
     private lateinit var dbList: ArrayList<String>
@@ -49,23 +49,20 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.btnConnect.isVisible = false
         viewModel.startScan()
         val scope = MainScope()
         scope.launch {
             delay(1000)
             viewModel.connect()
         }
-
-        binding.textviewFirst.text = viewModel.getDeviceSelected()
 
         loadDbList()
 
@@ -89,48 +86,36 @@ class HomeFragment : Fragment() {
             showDialog()
         }
 
+        binding.btnConnect.setOnClickListener {
+            Log.i(TAG, "Button Connect")
+            viewModel.connect()
+        }
+
 
         // Mittels Observer über Änderungen des connect status informieren
         viewModel.connectState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 ConnectState.CONNECTED -> {
                     binding.tvConnection.text = getString(R.string.connected)
+                    binding.btnConnect.isVisible = false
                 }
                 ConnectState.NOT_CONNECTED -> {
                     binding.tvConnection.text = getString(R.string.disconnected)
+                    binding.btnConnect.isVisible = true
                 }
                 ConnectState.NO_DEVICE -> {
                     binding.tvConnection.text = getString(R.string.no_selected_device)
+                    binding.btnConnect.isVisible = true
                 }
                 ConnectState.DEVICE_SELECTED -> {
                     binding.tvConnection.text = getString(R.string.connecting)
+                    binding.btnConnect.isVisible = false
                 }
             }
         }
     }
 
     private fun loadDbList() {
-        /*val storage = Firebase.storage
-        val listRef = storage.reference.child("Kinder")
-        listRef.listAll()
-            .addOnSuccessListener { (items, prefixes) ->
-                prefixes.forEach { prefix ->
-                    // All the prefixes under listRef.
-                    // You may call listAll() recursively on them.
-                }
-
-                items.forEach { item ->
-                    dbList = ArrayList()
-                    dbList.add(item.toString())
-                    adapter = ArrayAdapter(requireContext(), R.layout.list_item, dbList)
-                    binding.autoCompleteTextView.setAdapter(adapter)
-                }
-            }
-            .addOnFailureListener {
-                // Uh-oh, an error occurred!
-            }*/
-
-        //val storageRef = FirebaseStorage.getInstance().reference.child("$useSelected/$dicedSide.jpg")
         //Liste aus Datenbank
         db.collection("Verwendungszweck")
             .addSnapshotListener(EventListener { value, e ->
@@ -139,7 +124,6 @@ class HomeFragment : Fragment() {
                 }
                 updateListOnChange(value!!)
             })
-
     }
 
     //Liste aus Datenbank
