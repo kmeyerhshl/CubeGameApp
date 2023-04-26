@@ -26,20 +26,16 @@ class PlayerFragment : Fragment() {
 
     private val TAG = "PlayerFragment"
 
-    private var _binding: FragmentPlayerBinding? = null
-
-    private val viewModel: MainViewModel by activityViewModels()
-    private val mFirebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-
+    //Variable für Verwendungszweck
     private var useSelected: String = ""
 
-    private lateinit var playerList: ArrayList<String>
-    private lateinit var adapter: ArrayAdapter<String>
-
+    //Boolean Variablen
     var bool1: Boolean = false
     var bool2: Boolean = false
     var bool3: Boolean = false
 
+    private val viewModel: MainViewModel by activityViewModels()
+    private var _binding: FragmentPlayerBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -56,22 +52,22 @@ class PlayerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        //Verwendungszweck
+        //Verwendungszweck empfangen
         useSelected = viewModel.getUseSelected()
         Log.i(TAG, "Verwendungszweck: $useSelected")
 
-        //ListView ViewModel
+        //Spielernamen in Liste anzeigen
         val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_multiple_choice,viewModel.getPlayerList()!!)
         binding.lvPlayer.adapter = adapter
         viewModel.playerList.observe(viewLifecycleOwner) { adapter.notifyDataSetChanged() }
 
-        //Liste der ausgewählten Spieler leeren
+        //Liste der ausgewählten Spieler leeren (Spieler aus dem vorherigen Spiel)
         for (i in 0 until binding.lvPlayer.count) {
             val player: String = binding.lvPlayer.getItemAtPosition(i) as String
             viewModel.emptySelectedPlayers(player)
         }
 
-        //Spieler hinzufügen
+        //Spieler hinzufügen: Namen eintippen und bestätigen
         binding.fabAdd.setOnClickListener {
             val editTextView = EditText(this.context)
             this?.let {
@@ -85,6 +81,7 @@ class PlayerFragment : Fragment() {
                         if (playerName.isEmpty()) {
                             toast(getString(R.string.fill_out))
                         } else {
+                            //Spieler wird der Spielerliste hinzugefügt und in der Liste angezeigt
                             viewModel.addPlayer(playerName)
                             adapter.notifyDataSetChanged()
                             Log.i(TAG,"neuer Spieler: $playerName")
@@ -94,65 +91,76 @@ class PlayerFragment : Fragment() {
             }
         }
 
-        //Spieler löschen - kopiert
+
+        //Spieler löschen
         binding.fabDelete.setOnClickListener {
+            //Spielerliste durchgehen und prüfen, welcher Spieler ausgewählt wurde
             for (i in 0 until binding.lvPlayer.count) {
                 if (binding.lvPlayer.isItemChecked(i)) {
+                    //ausgewählte Spieler aus der Spielerliste löschen
                     val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
                     viewModel.deletePlayer(playerName)
                 }
             }
+            //ListView aktualisieren
             adapter.notifyDataSetChanged()
         }
 
 
-
-
         //ausgewählte Spieler abwechselnd zu Team A und Team B zuordnen
         binding.btnTeams.setOnClickListener {
+            //Liste der Spieler durchgehen
             for (i in 0 until binding.lvPlayer.count) {
+                //wenn bool3 false ist, wird bool1 false --> Spieler geht zu Team A
                 if (!bool3) {
                     Log.i(TAG,"BOOL3 IS FALSE")
                     bool1 = false
                 } else {
+                    //wenn bool3 true ist, wird bool2 true --> Spieler geht zu Team B
                     bool2 = true
                     Log.i(TAG,"BOOL3 IS TRUE")
                 }
+                //wenn ein Spieler ausgewählt wurde
                 if (binding.lvPlayer.isItemChecked(i)) {
                     val playerName : String = binding.lvPlayer.getItemAtPosition(i) as String
+                    //Spielernamen aus allen Listen ausgewählter Spieler löschen
                     viewModel.emptySelectedPlayers(playerName)
+                    //Spielernamen zur Liste ausgewählter Spieler hinzufügen
                     viewModel.selectPlayer(playerName)
                     if (!bool1) {
+                        //wenn bool1 false ist, Spielernamen zu Team A hinzufügen
                         viewModel.selectPlayerA(playerName)
+                        //bool1 true setzen
                         bool1 = true
                         Log.i(TAG,"BOOL1 IS FALSE")
                     }
                     if (bool2) {
+                        //wenn bool2 false ist, Spielernamen zu Team B hinzufügen
                         viewModel.selectPlayerB(playerName)
+                        //bool2 false setzen
                         bool2 = false
                         Log.i(TAG,"BOOL2 IS TRUE")
                     }
+                    //bool3 toggeln --> gleichmäßige Teamaufteilung ermöglichen
                     bool3 = !bool3
                 }
             }
             adapter.notifyDataSetChanged()
 
-
-
             Log.i(TAG,"checked: ${binding.lvPlayer.checkedItemCount}")
 
-
-
-
+            //wenn keine Spieler ausgewählt wurden (beide Teamlisten leer sind), erscheint ein Hinweis
             if (viewModel.selectedPlayerListA.value?.isEmpty() == true || viewModel.selectedPlayerListB.value?.isEmpty() == true) {
                 Log.i(TAG, "Liste ist leer")
                 toast("Bitte Spieler auswählen")
             } else {
+                //sonst wird das Alert Dialog mit der Teamaufteilung angezeigt
                 showDialogTeams()
             }
         }
 
         // Mittels Observer über Änderungen des connect status informieren
+        // wenn die Bluetooth-Verbindung abbricht oder kein Gerät verbunden ist, wird die Startseite erneut geöffnet
         viewModel.connectState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 ConnectState.NOT_CONNECTED -> {
@@ -175,7 +183,7 @@ class PlayerFragment : Fragment() {
         val mListView = mRowList.findViewById<ListView>(R.id.list_view_1)
         val mListView2 = mRowList.findViewById<ListView>(R.id.list_view_2)
 
-        // Adapter is created and applied to ListView
+        //Adapter für Team A und Adapter für Team B
         val mAdapterA = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, viewModel.getSelectedPlayerListA()!!)
         val mAdapterB = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, viewModel.getSelectedPlayerListB()!!)
         mListView.adapter = mAdapterA
@@ -183,10 +191,7 @@ class PlayerFragment : Fragment() {
         mAdapterA.notifyDataSetChanged()
         mAdapterB.notifyDataSetChanged()
 
-
-        // Row item is set as view in the Builder and the
-        // ListView is displayed in the Alert Dialog
-        //mAlertDialogBuilder.setTitle(getString(R.string.adTitle))
+        //ListViews für die beiden Teams werden untereinander im Alert Dialog angezeigt
         mAlertDialogBuilder.setView(mRowList)
         mAlertDialogBuilder.setPositiveButton(getString(R.string.posButton)) { dialog, which ->
             findNavController().navigate(R.id.action_SecondFragment_to_gameFragment)

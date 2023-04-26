@@ -44,13 +44,11 @@ class MainActivity : AppCompatActivity() {
 
     private val LISTSIZE = "listsize"
     private val LISTITEM = "item_"
-    private val SELECTEDITEM ="selected"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         checkBTPermission()
-
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -62,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+
 
         //ist das Handy mit dem Internet verbunden?
         fun  isNetworkAvailabale():Boolean{
@@ -97,9 +96,8 @@ class MainActivity : AppCompatActivity() {
             }.show()
         }
 
-        //Firebase
+        //Firebase - überprüfen, ob Nutzer eingeloggt ist und UI updaten
         auth = Firebase.auth
-        // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         updateUI(currentUser)
         if (currentUser != null) {
@@ -113,6 +111,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //Nutzer wird anonym bei Firebase angemeldet
     private fun signIn() {
         auth.signInAnonymously()
             .addOnCompleteListener(this) { task ->
@@ -131,6 +130,7 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
+    //UI updaten
     private fun updateUI(user: FirebaseUser?) {
         Log.i(TAG,"updateUI")
     }
@@ -141,6 +141,7 @@ class MainActivity : AppCompatActivity() {
         writeSharedPreferences()
     }
 
+    //Spielerliste speichern
     private fun writeSharedPreferences() {
         Log.i(TAG, "writeSharedPreferences")
         // speicher die Spielerliste
@@ -154,6 +155,7 @@ class MainActivity : AppCompatActivity() {
         edit.commit()
     }
 
+    //Spielerliste wieder einlesen
     private fun readSharedPreferences() {
         Log.i(TAG, "readSharedPreferences")
         // Spieler wieder einlesen
@@ -164,6 +166,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //Bluetooth Permissions
     private fun checkBTPermission() {
         var permissionCheck = PermissionChecker.checkSelfPermission(this, "Manifest.permission.ACCESS_FINE_LOCATION")
         permissionCheck += PermissionChecker.checkSelfPermission(this, "Manifest.permission.ACCESS_COARSE_LOCATION")

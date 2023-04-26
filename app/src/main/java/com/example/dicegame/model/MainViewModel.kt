@@ -41,6 +41,8 @@ class MainViewModel : ViewModel() {
 
     private val TAG = "MainViewModel"
 
+    // Setup
+    // --------------------------------------------------------------------------
 
     //---Device auswählen---
     private val _deviceList = MutableLiveData<MutableList<Device>>()
@@ -62,7 +64,7 @@ class MainViewModel : ViewModel() {
     }
 
 
-    //---Zweck auswhählen---
+    //---Zweck auswählen---
     private val _selectedUse = MutableLiveData<String>()
     val selectedUse: LiveData<String>
         get() = _selectedUse
@@ -112,11 +114,13 @@ class MainViewModel : ViewModel() {
     val btnCounter: LiveData<Int>
         get() = _btnCounter
 
+    //Counter hochrechnen
     fun incBtnCounter() {
         _btnCounter.value = (_btnCounter.value ?: 0) + 1
         Log.i(TAG, "btnCounter = ${_btnCounter.value}")
     }
 
+    //Counter zurücksetzen
     fun resetBtnCounter() {
         _btnCounter.value = 0
         Log.i(TAG, "BtnCounter zurückgesetzt")
@@ -128,11 +132,13 @@ class MainViewModel : ViewModel() {
     val counterA: LiveData<Int>
         get() = _counterA
 
+    //Punktestand hochrechnen (Team A)
     fun incCounterA() {
         _counterA.value = (_counterA.value ?: 0) + 1
         Log.i(TAG, "counterA = ${_counterA.value}")
     }
 
+    //Punktestand zurücksetzen (Team A)
     fun resetCounterA() {
         _counterA.value = 0
         Log.i(TAG, "counterA zurückgesetzt")
@@ -142,11 +148,13 @@ class MainViewModel : ViewModel() {
     val counterB: LiveData<Int>
         get() = _counterB
 
+    //Punktestand hochrechnen (Team B)
     fun incCounterB() {
         _counterB.value = (_counterB.value ?: 0) + 1
         Log.i(TAG, "counterB = ${_counterB.value}")
     }
 
+    //Punktestand zurücksetzen (Team B)
     fun resetCounterB() {
         _counterB.value = 0
         Log.i(TAG, "counterB zurückgesetzt")
@@ -154,6 +162,7 @@ class MainViewModel : ViewModel() {
 
 
     //---Boolean---
+    //Boolean für Auswahl der Rundenanzahl
     private val _booleanNext = MutableLiveData<Boolean>(false)
     val booleanNext: LiveData<Boolean>
         get() = _booleanNext
@@ -165,6 +174,7 @@ class MainViewModel : ViewModel() {
         Log.i(TAG, _booleanNext.toString())
     }
 
+    //Boolean für Datenüberprüfung
     private val _booleanAD = MutableLiveData<Boolean>(false)
     val booleanAD: LiveData<Boolean>
         get() = _booleanAD
@@ -213,6 +223,7 @@ class MainViewModel : ViewModel() {
     }
 
 
+    //Initialisierung
     init {
         _deviceList.value = mutableListOf()
         _selectedUse.value = ""
@@ -225,6 +236,7 @@ class MainViewModel : ViewModel() {
         _selectedPlayerListB.value = mutableListOf()
     }
 
+    //---Spieler hinzufügen---
     fun addPlayer(player: String) {
         if (!(_playerList.value?.contains(player) ?: true)) {
             _playerList.value?.add(player)
@@ -233,12 +245,14 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    //---Spieler löschen---
     fun deletePlayer(player: String) {
         _playerList.value?.removeAll() {it.equals(player)}
         _playerList.notifyObserver()
         Log.i("MVM Delete:", _playerList.value.toString())
     }
 
+    //---Spielerlisten leeren---
     fun emptySelectedPlayers(player: String) {
         _selectedPlayer.value?.removeAll() {it.equals(player)}
         _selectedPlayerListA.value?.removeAll() {it.equals(player)}
@@ -248,6 +262,7 @@ class MainViewModel : ViewModel() {
         Log.i("MVM Empty","done")
     }
 
+    //---Spielerlisten füllen---
     fun selectPlayer(player:String) {
         _selectedPlayer.value?.add(player)
         _selectedPlayer.notifyObserver()
@@ -289,7 +304,6 @@ class MainViewModel : ViewModel() {
             withTimeoutOrNull(SCAN_DURATION_MILLIS) {
                 scanner
                     .advertisements
-                    //.filter { advertisement -> advertisement.name?.startsWith("CubeGame1") == true }
                     .catch {cause -> scanState = ScanState.FAILED
                         Log.i(">>>> Scanning Failed", cause.message.toString())
                     }
@@ -299,15 +313,7 @@ class MainViewModel : ViewModel() {
                     .collect { advertisement ->
                         val device = Device(name = advertisement.name.toString(),
                             address = advertisement.address.toString())
-                        //deviceSelected = device.toString()
                         setDeviceSelected(device.toString())
-                        //Log.i(">>deviceSelected>>:", deviceSelected)
-                        /*if (_deviceList.value?.contains(device) == false) {
-                            _deviceList.value?.add(device)
-                            _deviceList.notifyObserver()
-                        }*/
-                        //Log.i(">>>>", _deviceList.value.toString())
-                        //Log.i(">>>>>", deviceSelected)
                     }
             }
         }
@@ -331,7 +337,6 @@ class MainViewModel : ViewModel() {
     fun connect() {
         if (_connectState.value == ConnectState.NO_DEVICE) return
         val macAddress = deviceSelected.substring(deviceSelected.length -17)
-        //val macAddress = "24:6F:28:1A:71:76"
         Log.i("macAdress:", macAddress)
         peripheral = viewModelScope.peripheral(macAddress) {
             onServicesDiscovered {
@@ -384,6 +389,7 @@ class MainViewModel : ViewModel() {
     val esp32Data: LiveData<Esp32Data>
         get() = _esp32Data
 
+    //Datenempfang starten
     fun startDataLoadJob() {
         dataLoadJob = viewModelScope.launch {
             esp32.incomingMessages.collect { msg ->
@@ -395,16 +401,16 @@ class MainViewModel : ViewModel() {
         Log.i(TAG, "StartDataLoadjob")
     }
 
+    //Datenempfang stoppen
     fun cancelDataLoadJob() {
         dataLoadJob.cancel()
         Log.i(TAG, "CancelDataLoadjob")
     }
 
-
+    //Rundenanzahl an ESP32 senden
     fun sendRoundData(selectedItem: Int) {
         viewModelScope.launch {
             try {
-                //esp32.sendMessage(jsonEncodeRound(round))
                 esp32.sendMessage(jsonEncodeRound(selectedItem))
             } catch (e:Exception) {
                 Log.i(">>>>>", "Error sending pData ${e.message}" + e.toString())
@@ -412,6 +418,7 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    //GameStatus an ESP32 senden
     fun sendGameStatus() {
         viewModelScope.launch {
             try {
@@ -422,27 +429,21 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    //GameStatus in JSON String kodieren
     private fun jsonEncodeGameStatus(gameStatus: GameStatus): String {
         val obj = JSONObject()
         obj.put("GameStatus", gameStatus.gameStatus)
         return obj.toString()
     }
 
-
-    private fun jsonEncodeRepeat(repeat: Repeat): String {
-        val obj = JSONObject()
-        obj.put("REPEAT", repeat.repeat)
-        return obj.toString()
-    }
-
-
+    //Rundenanzahl in JSON String kodieren
     private fun jsonEncodeRound(selectedItem: Int): String {
         val obj = JSONObject()
         obj.put("ROUND", selectedItem)
         return obj.toString()
     }
 
-
+    //empfangene Daten JSON dekodieren
     fun jsonParseEsp32Data(jsonString: String): Esp32Data {
         try {
             val obj = JSONObject(jsonString)
