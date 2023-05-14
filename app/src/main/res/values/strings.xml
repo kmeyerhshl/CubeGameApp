@@ -61,7 +61,7 @@
 
 
     //Exercise Fragment
-    <string name="tvTitle">Wer war schneller?</string>
+    <string name="tvTitle">Wer gewinnt?</string>
     <string name="tvVS">vs.</string>
 
 </resources>

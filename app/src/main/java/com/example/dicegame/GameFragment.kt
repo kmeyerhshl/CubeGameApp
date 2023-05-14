@@ -34,7 +34,7 @@ class GameFragment : Fragment() {
     private var useSelected: String = ""
 
     //Variablen zur Rundenauswahl
-    val singleItems = arrayOf("3","5","10")
+    val singleItems = arrayOf("3","5","11")
     var checkedItem = 1
     var nrRounds : Int = 0
     var roundsVM: Int = 0
